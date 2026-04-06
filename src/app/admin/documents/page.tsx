@@ -23,7 +23,7 @@ export default async function AdminDocumentsPage() {
   const { data: documents } = await supabase
     .from('documents')
     .select('*')
-    .order('created_at', { ascending: false });
+    .order('created_at', { ascending: false }) as { data: any[] | null };
 
   async function deleteDocument(formData: FormData) {
     'use server';

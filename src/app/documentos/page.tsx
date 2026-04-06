@@ -31,7 +31,7 @@ export default async function DocumentsPage({ searchParams }: { searchParams: Pr
     query = query.eq('category', category);
   }
 
-  const { data: documents } = await query;
+  const { data: documents } = await query as { data: any[] | null };
 
   const categories = Object.entries(categoryLabels);
 

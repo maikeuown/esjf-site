@@ -20,7 +20,7 @@ export default async function NewsPage({ searchParams }: { searchParams: Promise
   const { data: categories } = await supabase
     .from('news_categories')
     .select('*')
-    .order('name');
+    .order('name') as { data: any[] | null };
 
   // Build query
   let query = supabase

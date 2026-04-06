@@ -40,15 +40,9 @@ export async function generateMetadata({ params }: NewsPageProps): Promise<Metad
 }
 
 export async function generateStaticParams() {
-  const supabase = await createServerClient();
-  
-  const { data: news } = await supabase
-    .from('news')
-    .select('slug')
-    .eq('status', 'published')
-    .limit(50);
-
-  return news?.map(({ slug }) => ({ slug })) || [];
+  // Return empty array for static generation
+  // Pages will be generated on-demand with ISR
+  return [];
 }
 
 export default async function NewsDetailPage({ params }: NewsPageProps) {
@@ -73,11 +67,11 @@ export default async function NewsDetailPage({ params }: NewsPageProps) {
   // Fetch related news
   const { data: relatedNews } = await supabase
     .from('news')
-    .select('title, slug, featured_image_url, published_at')
+    .select('id, title, slug, featured_image_url, published_at')
     .eq('status', 'published')
     .neq('id', news.id)
     .order('published_at', { ascending: false })
-    .limit(3);
+    .limit(3) as { data: any[] | null };
 
   return (
     <div className="container mx-auto px-4 py-12">

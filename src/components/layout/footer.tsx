@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { Facebook, Instagram, Mail, MapPin, Phone, Fax } from 'lucide-react';
+import { Mail, MapPin, Phone, Printer, Globe } from 'lucide-react';
 
 const footerLinks = {
   'A Escola': [
@@ -54,7 +54,7 @@ export function Footer() {
                 {schoolInfo.phone}
               </p>
               <p className="flex items-center gap-2">
-                <Fax className="h-4 w-4 shrink-0" />
+                <Printer className="h-4 w-4 shrink-0" />
                 {schoolInfo.fax}
               </p>
               <p className="flex items-center gap-2">
@@ -71,7 +71,7 @@ export function Footer() {
                 rel="noopener noreferrer"
                 className="h-10 w-10 rounded-full bg-primary/10 flex items-center justify-center text-primary hover:bg-primary hover:text-primary-foreground transition-colors"
               >
-                <Facebook className="h-5 w-5" />
+                <Globe className="h-5 w-5" />
               </a>
               <a
                 href={schoolInfo.instagram}
@@ -79,7 +79,7 @@ export function Footer() {
                 rel="noopener noreferrer"
                 className="h-10 w-10 rounded-full bg-primary/10 flex items-center justify-center text-primary hover:bg-primary hover:text-primary-foreground transition-colors"
               >
-                <Instagram className="h-5 w-5" />
+                <Globe className="h-5 w-5" />
               </a>
             </div>
           </div>

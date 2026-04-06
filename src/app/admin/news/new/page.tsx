@@ -83,7 +83,7 @@ export default function NewsEditorPage({ params }: NewsFormPageProps) {
       category_id: categoryId || null,
       status,
       published_at: status === 'published' ? new Date().toISOString() : null,
-    });
+    } as any);
 
     if (error) {
       console.error('Error saving news:', error);

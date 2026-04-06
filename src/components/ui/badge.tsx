@@ -1,12 +1,12 @@
 import { cn } from '@/lib/utils';
 
-interface BadgeProps {
+interface BadgeProps extends React.HTMLAttributes<HTMLSpanElement> {
   children: React.ReactNode;
   variant?: 'default' | 'secondary' | 'destructive';
   className?: string;
 }
 
-export function Badge({ children, variant = 'default', className }: BadgeProps) {
+export function Badge({ children, variant = 'default', className, style }: BadgeProps & { style?: React.CSSProperties }) {
   return (
     <span
       className={cn(
@@ -18,6 +18,7 @@ export function Badge({ children, variant = 'default', className }: BadgeProps) 
         },
         className
       )}
+      style={style}
     >
       {children}
     </span>

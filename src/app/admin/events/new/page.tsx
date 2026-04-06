@@ -41,7 +41,7 @@ export default function NewEventPage() {
       location,
       external_link: externalLink || null,
       status: 'published',
-    });
+    } as any);
 
     if (error) {
       alert('Erro ao guardar o evento: ' + error.message);

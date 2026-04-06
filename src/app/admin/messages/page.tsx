@@ -12,7 +12,7 @@ export default async function AdminMessagesPage() {
   const { data: messages } = await supabase
     .from('contact_messages')
     .select('*')
-    .order('created_at', { ascending: false });
+    .order('created_at', { ascending: false }) as { data: any[] | null };
 
   async function markAsRead(formData: FormData) {
     'use server';

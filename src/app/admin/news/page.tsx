@@ -22,7 +22,7 @@ export default async function AdminNewsPage() {
       created_at,
       category:news_categories(name, color)
     `)
-    .order('created_at', { ascending: false });
+    .order('created_at', { ascending: false }) as { data: any[] | null };
 
   async function deleteNews(formData: FormData) {
     'use server';

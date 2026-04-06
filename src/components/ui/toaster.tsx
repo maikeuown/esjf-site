@@ -1,7 +1,6 @@
 'use client';
 
-import { useTheme } from 'next-themes';
-import { ToastProvider, ToastViewport, Toast, ToastTitle, ToastDescription, ToastClose } from '@radix-ui/react-toast';
+import { ToastProvider, ToastViewport } from '@radix-ui/react-toast';
 
 export function Toaster() {
   return (
@@ -11,5 +10,3 @@ export function Toaster() {
     </ToastProvider>
   );
 }
-
-export { Toast, ToastTitle, ToastDescription, ToastClose, ToastViewport } from '@radix-ui/react-toast';

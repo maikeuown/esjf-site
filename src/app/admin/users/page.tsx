@@ -18,7 +18,7 @@ export default async function AdminUsersPage() {
   const { data: profiles } = await supabase
     .from('profiles')
     .select('*')
-    .order('created_at', { ascending: false });
+    .order('created_at', { ascending: false }) as { data: any[] | null };
 
   async function markAsRead(formData: FormData) {
     'use server';

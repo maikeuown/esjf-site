@@ -13,16 +13,16 @@ export default async function EventsPage() {
     .select('*')
     .eq('status', 'published')
     .gte('start_date', new Date().toISOString())
-    .order('start_date', { ascending: true });
+    .order('start_date', { ascending: true }) as { data: any[] | null };
 
   // Group events by month
-  const groupedEvents = events?.reduce((acc, event) => {
+  const groupedEvents = events?.reduce((acc: Record<string, any[]>, event: any) => {
     const date = new Date(event.start_date);
     const monthKey = date.toLocaleDateString('pt-PT', { year: 'numeric', month: 'long' });
     if (!acc[monthKey]) acc[monthKey] = [];
     acc[monthKey].push(event);
     return acc;
-  }, {} as Record<string, typeof events>);
+  }, {} as Record<string, any[]>);
 
   return (
     <div className="container mx-auto px-4 py-12">
@@ -33,7 +33,7 @@ export default async function EventsPage() {
         </p>
       </div>
 
-      {events && events.length > 0 ? (
+      {events && events.length > 0 && groupedEvents ? (
         <div className="space-y-12">
           {Object.entries(groupedEvents).map(([month, monthEvents]) => (
             <section key={month}>

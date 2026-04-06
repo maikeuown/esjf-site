@@ -13,7 +13,7 @@ export default async function AdminEventsPage() {
   const { data: events } = await supabase
     .from('events')
     .select('*')
-    .order('start_date', { ascending: false });
+    .order('start_date', { ascending: false }) as { data: any[] | null };
 
   async function deleteEvent(formData: FormData) {
     'use server';

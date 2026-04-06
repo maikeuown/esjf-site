@@ -13,7 +13,7 @@ export default async function AdminHighlightsPage() {
   const { data: highlights } = await supabase
     .from('highlights')
     .select('*')
-    .order('order_index', { ascending: true });
+    .order('order_index', { ascending: true }) as { data: any[] | null };
 
   async function deleteHighlight(formData: FormData) {
     'use server';

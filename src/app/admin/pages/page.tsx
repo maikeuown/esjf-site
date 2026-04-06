@@ -12,7 +12,7 @@ export default async function AdminPagesPage() {
   const { data: pages } = await supabase
     .from('pages')
     .select('*')
-    .order('title');
+    .order('title') as { data: any[] | null };
 
   async function togglePublish(formData: FormData) {
     'use server';

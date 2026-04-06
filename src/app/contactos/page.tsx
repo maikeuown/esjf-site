@@ -7,7 +7,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { MapPin, Phone, Fax, Mail, Clock, Send } from 'lucide-react';
+import { MapPin, Phone, Printer, Mail, Clock, Send } from 'lucide-react';
 import { createBrowserClient } from '@/lib/supabase/client';
 
 const schoolInfo = {
@@ -80,7 +80,7 @@ export default function ContactsPage() {
                   </div>
                 </div>
                 <div className="flex items-start gap-3">
-                  <Fax className="h-5 w-5 text-primary mt-1 shrink-0" />
+                  <Printer className="h-5 w-5 text-primary mt-1 shrink-0" />
                   <div>
                     <h4 className="font-semibold mb-1">Fax</h4>
                     <p className="text-muted-foreground">{schoolInfo.fax}</p>
