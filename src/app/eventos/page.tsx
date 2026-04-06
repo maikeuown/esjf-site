@@ -39,13 +39,13 @@ export default async function EventsPage() {
 
   return (
     <div className="container mx-auto px-4 py-12">
-      <div className="mb-10">
+      <div className="mb-10 text-center">
         <div className="inline-flex items-center gap-2 bg-brand-100 dark:bg-brand-900/30 rounded-full px-4 py-2 mb-4">
           <Sparkles className="h-4 w-4 text-brand-600 dark:text-brand-400" />
           <span className="text-sm font-medium text-brand-700 dark:text-brand-300">Não perca nada</span>
         </div>
         <h1 className="text-4xl font-bold mb-3">Eventos</h1>
-        <p className="text-muted-foreground text-lg">
+        <p className="text-muted-foreground text-lg max-w-2xl mx-auto">
           Calendário de eventos e atividades da Escola Secundária José Falcão
         </p>
       </div>

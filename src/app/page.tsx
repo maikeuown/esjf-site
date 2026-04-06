@@ -1,6 +1,6 @@
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
-import { Calendar, BookOpen, Clock, Users, ArrowRight, GraduationCap, Trophy, Newspaper, MapPin, Phone, Mail, Megaphone, Bell, Sparkles, Pin } from 'lucide-react';
+import { Calendar, BookOpen, Clock, Users, ArrowRight, GraduationCap, Trophy, MapPin, Phone, Bell, Pin, Megaphone, Newspaper, Mail } from 'lucide-react';
 import { createServerClient } from '@/lib/supabase/server';
 import { formatDate } from '@/lib/utils';
 import Image from 'next/image';
@@ -8,6 +8,7 @@ import { BentoGrid, BentoGridItem } from '@/components/ui/bento-grid';
 import { WeekCalendar } from '@/components/home/week-calendar';
 import { AnimatedSection } from '@/components/ui/animated-section';
 import { HeroCarousel } from '@/components/home/hero-carousel';
+import { NovidadesSection } from '@/components/home/novidades-section';
 
 const priorityConfig = {
   urgent: { label: 'Urgente', className: 'bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200' },
@@ -129,7 +130,7 @@ export default async function Home() {
             <div className="space-y-4">
               {activeAvisos.map((aviso, i) => {
                 const priority = priorityConfig[aviso.priority as keyof typeof priorityConfig] || priorityConfig.normal;
-                
+
                 return (
                   <AnimatedSection key={aviso.id} delay={i * 0.1}>
                     <Link href={`/avisos/${aviso.slug}`} className="group block">
@@ -138,8 +139,8 @@ export default async function Home() {
                           <div className="flex items-start gap-4">
                             {/* Icon */}
                             <div className={`icon-glow icon-glow-${aviso.is_pinned ? 'amber' : 'brand'} h-12 w-12 rounded-xl ${
-                              aviso.is_pinned 
-                                ? 'bg-amber-100 dark:bg-amber-900/30' 
+                              aviso.is_pinned
+                                ? 'bg-amber-100 dark:bg-amber-900/30'
                                 : 'bg-brand-100 dark:bg-brand-900/30'
                             } flex items-center justify-center shrink-0 transition-all duration-400`}>
                               {aviso.is_pinned ? (
@@ -202,7 +203,7 @@ export default async function Home() {
                 </p>
               </div>
             </AnimatedSection>
-            
+
             <BentoGrid>
               {highlights.slice(0, 5).map((highlight, i) => (
                 <BentoGridItem
@@ -220,112 +221,8 @@ export default async function Home() {
         </section>
       )}
 
-      {/* Latest News */}
-      <section className="py-16">
-        <div className="container mx-auto px-4">
-          <AnimatedSection>
-            <div className="flex items-center justify-between mb-10">
-              <div>
-                <div className="inline-flex items-center gap-2 bg-blue-100 dark:bg-blue-900/30 rounded-full px-4 py-2 mb-3">
-                  <Newspaper className="h-4 w-4 text-blue-600 dark:text-blue-400" />
-                  <span className="text-sm font-medium text-blue-700 dark:text-blue-300">Atualidade</span>
-                </div>
-                <h2 className="text-3xl font-bold mb-2">Últimas Notícias</h2>
-                <p className="text-muted-foreground text-lg">
-                  Fique a par de tudo o que acontece na nossa escola
-                </p>
-              </div>
-              <Link href="/noticias" className="hidden md:flex">
-                <Button variant="outline" className="gap-2">
-                  Ver todas
-                  <ArrowRight className="h-4 w-4" />
-                </Button>
-              </Link>
-            </div>
-          </AnimatedSection>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {latestNews?.map((news, i) => (
-              <AnimatedSection key={news.id} delay={i * 0.1}>
-                <Link href={`/noticias/${news.slug}`} className="group block">
-                  <article className="card bg-background rounded-2xl border overflow-hidden cursor-pointer">
-                    {news.featured_image_url && (
-                      <div className="relative h-48 overflow-hidden bg-muted">
-                        <Image
-                          src={news.featured_image_url}
-                          alt={news.title}
-                          fill
-                          className="object-cover group-hover:scale-110 transition-transform duration-500"
-                        />
-                        <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent"></div>
-                      </div>
-                    )}
-                    <div className="p-6">
-                      {news.category && (
-                        <span
-                          className="inline-block px-3 py-1 text-xs font-semibold rounded-full text-white mb-3"
-                          style={{ backgroundColor: news.category.color }}
-                        >
-                          {news.category.name}
-                        </span>
-                      )}
-                      <h3 className="text-xl font-semibold mb-2 text-glow line-clamp-2 group-hover:text-brand-600 dark:group-hover:text-brand-400 transition-colors">
-                        {news.title}
-                      </h3>
-                      {news.excerpt && (
-                        <p className="text-muted-foreground text-sm line-clamp-3 mb-4 text-glow">
-                          {news.excerpt}
-                        </p>
-                      )}
-                      <div className="flex items-center text-sm text-muted-foreground">
-                        <Calendar className="h-4 w-4 mr-1" />
-                        {news.published_at ? formatDate(new Date(news.published_at)) : 'Recente'}
-                      </div>
-                    </div>
-                  </article>
-                </Link>
-              </AnimatedSection>
-            ))}
-          </div>
-
-          <div className="mt-10 text-center md:hidden">
-            <Link href="/noticias">
-              <Button variant="outline" className="gap-2">
-                Ver todas as notícias
-                <ArrowRight className="h-4 w-4" />
-              </Button>
-            </Link>
-          </div>
-        </div>
-      </section>
-
-      {/* Events Calendar Preview */}
-      <section className="py-16 bg-gradient-to-b from-secondary/30 to-background">
-        <div className="container mx-auto px-4">
-          <AnimatedSection>
-            <div className="flex items-center justify-between mb-10">
-              <div>
-                <div className="inline-flex items-center gap-2 bg-emerald-100 dark:bg-emerald-900/30 rounded-full px-4 py-2 mb-3">
-                  <Calendar className="h-4 w-4 text-emerald-600 dark:text-emerald-400" />
-                  <span className="text-sm font-medium text-emerald-700 dark:text-emerald-300">Agenda</span>
-                </div>
-                <h2 className="text-3xl font-bold mb-2">Próximos Eventos</h2>
-                <p className="text-muted-foreground text-lg">
-                  Não perca os eventos da nossa escola
-                </p>
-              </div>
-              <Link href="/eventos" className="hidden md:flex">
-                <Button variant="outline" className="gap-2">
-                  Ver calendário completo
-                  <ArrowRight className="h-4 w-4" />
-                </Button>
-              </Link>
-            </div>
-          </AnimatedSection>
-
-          <WeekCalendar events={upcomingEvents || []} />
-        </div>
-      </section>
+      {/* Novidades Section - 3 Columns (Avisos/Notícias/Eventos) */}
+      <NovidadesSection />
 
       {/* About School - Modern Layout */}
       <section className="py-20 bg-gradient-to-br from-brand-50 to-blue-50 dark:from-slate-900 dark:to-slate-800">

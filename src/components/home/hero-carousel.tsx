@@ -14,10 +14,8 @@ interface CarouselSlide {
   description: string;
   href: string;
   cta: string;
-  gradient: string;
   bgGradient: string;
   features: { icon: React.ElementType; text: string }[];
-  color: string;
 }
 
 const slides: CarouselSlide[] = [
@@ -29,14 +27,12 @@ const slides: CarouselSlide[] = [
     description: 'Um dos primeiros Liceus de Portugal. Em reabilitação profunda com investimento de 23,8 milhões de euros para as gerações futuras.',
     href: '/a-escola',
     cta: 'Conhecer a Escola',
-    gradient: 'from-brand-600 to-brand-800',
     bgGradient: 'from-brand-900 via-brand-800 to-brand-700',
     features: [
       { icon: Clock, text: '88+ anos de história' },
       { icon: Users, text: 'Comunidade educativa vibrante' },
       { icon: MapPin, text: 'Coimbra, Portugal' },
     ],
-    color: 'brand',
   },
   {
     icon: BookOpen,
@@ -46,14 +42,12 @@ const slides: CarouselSlide[] = [
     description: 'Do Ensino Básico ao Secundário, dos Cursos Científico-Humanísticos aos Cursos Profissionais, oferecemos percursos educativos diversificados para o sucesso de todos os alunos.',
     href: '/oferta-educativa',
     cta: 'Explorar Oferta Educativa',
-    gradient: 'from-emerald-600 to-emerald-800',
     bgGradient: 'from-emerald-900 via-emerald-800 to-emerald-700',
     features: [
       { icon: BookOpen, text: 'Ensino Básico - 3º Ciclo' },
       { icon: GraduationCap, text: 'Cursos Científico-Humanísticos' },
       { icon: Wrench, text: 'Cursos Profissionais' },
     ],
-    color: 'emerald',
   },
   {
     icon: Bell,
@@ -63,14 +57,12 @@ const slides: CarouselSlide[] = [
     description: 'Descubra as últimas notícias, eventos e avisos importantes da nossa escola. Mantenha-se informado sobre tudo o que acontece na comunidade escolar.',
     href: '/novidades',
     cta: 'Ver Novidades',
-    gradient: 'from-blue-600 to-blue-800',
     bgGradient: 'from-blue-900 via-blue-800 to-blue-700',
     features: [
       { icon: Newspaper, text: 'Últimas notícias' },
       { icon: Calendar, text: 'Calendário de eventos' },
       { icon: Megaphone, text: 'Avisos importantes' },
     ],
-    color: 'blue',
   },
   {
     icon: Trophy,
@@ -80,14 +72,12 @@ const slides: CarouselSlide[] = [
     description: 'Desporto escolar, clubes, projetos Erasmus+, atividades culturais e muito mais. Descubra tudo o que os nossos alunos fazem para além das aulas.',
     href: '/projetos',
     cta: 'Explorar Projetos',
-    gradient: 'from-purple-600 to-purple-800',
     bgGradient: 'from-purple-900 via-purple-800 to-purple-700',
     features: [
       { icon: Heart, text: 'Clubes e atividades' },
       { icon: Trophy, text: 'Competições académicas' },
       { icon: Users, text: 'Projetos colaborativos' },
     ],
-    color: 'purple',
   },
   {
     icon: Wrench,
@@ -97,14 +87,12 @@ const slides: CarouselSlide[] = [
     description: 'Secretaria, Biblioteca Escolar, Serviço de Psicologia e Orientação. Todos os serviços que a escola disponibiliza para a sua conveniência.',
     href: '/servicos',
     cta: 'Ver Serviços',
-    gradient: 'from-amber-600 to-amber-800',
     bgGradient: 'from-amber-900 via-amber-800 to-amber-700',
     features: [
       { icon: Clock, text: 'Secretaria - Horário de atendimento' },
       { icon: FileText, text: 'Biblioteca e recursos' },
       { icon: Heart, text: 'Apoio psicológico (SPO)' },
     ],
-    color: 'amber',
   },
   {
     icon: Phone,
@@ -114,14 +102,12 @@ const slides: CarouselSlide[] = [
     description: 'Entre em contacto com a Escola Secundária José Falcão. Encontre morada, telefone, email e envie-nos uma mensagem diretamente pelo nosso site.',
     href: '/contactos',
     cta: 'Contactar Escola',
-    gradient: 'from-pink-600 to-pink-800',
     bgGradient: 'from-pink-900 via-pink-800 to-pink-700',
     features: [
       { icon: Phone, text: '239 487 170' },
       { icon: MapPin, text: 'Av. Dom Afonso Henriques, Coimbra' },
       { icon: Clock, text: 'Seg-Sex: 08:30 - 17:30' },
     ],
-    color: 'pink',
   },
 ];
 
@@ -131,7 +117,7 @@ export function HeroCarousel() {
   const [isHovering, setIsHovering] = useState(false);
   const [direction, setDirection] = useState(1);
 
-  const autoPlayInterval = 6000; // 6 seconds per slide
+  const autoPlayInterval = 6000;
 
   const nextSlide = useCallback(() => {
     setDirection(1);
@@ -148,7 +134,6 @@ export function HeroCarousel() {
     setCurrentIndex(index);
   }, [currentIndex]);
 
-  // Auto-play
   useEffect(() => {
     if (!isPaused && !isHovering) {
       const timer = setInterval(nextSlide, autoPlayInterval);
@@ -165,11 +150,7 @@ export function HeroCarousel() {
       opacity: 0,
       scale: 0.95,
     }),
-    center: {
-      x: 0,
-      opacity: 1,
-      scale: 1,
-    },
+    center: { x: 0, opacity: 1, scale: 1 },
     exit: (direction: number) => ({
       x: direction > 0 ? -600 : 600,
       opacity: 0,
@@ -183,7 +164,7 @@ export function HeroCarousel() {
       onMouseEnter={() => setIsHovering(true)}
       onMouseLeave={() => setIsHovering(false)}
     >
-      {/* Animated Background Pattern */}
+      {/* Animated Background */}
       <div className="absolute inset-0">
         <div className="absolute inset-0 opacity-20">
           <motion.div
@@ -192,7 +173,7 @@ export function HeroCarousel() {
             animate={{ scale: 1, opacity: 1 }}
             transition={{ duration: 1.5, delay: 0.2 }}
             className="absolute top-20 left-10 w-72 h-72 bg-white/20 rounded-full mix-blend-multiply filter blur-xl animate-pulse"
-          ></motion.div>
+          />
           <motion.div
             key={`blob-2-${currentIndex}`}
             initial={{ scale: 0.8, opacity: 0 }}
@@ -200,7 +181,7 @@ export function HeroCarousel() {
             transition={{ duration: 1.5, delay: 0.4 }}
             className="absolute top-40 right-20 w-96 h-96 bg-white/10 rounded-full mix-blend-multiply filter blur-xl animate-pulse"
             style={{ animationDelay: '2s' }}
-          ></motion.div>
+          />
           <motion.div
             key={`blob-3-${currentIndex}`}
             initial={{ scale: 0.8, opacity: 0 }}
@@ -208,17 +189,12 @@ export function HeroCarousel() {
             transition={{ duration: 1.5, delay: 0.6 }}
             className="absolute bottom-20 left-1/3 w-80 h-80 bg-white/15 rounded-full mix-blend-multiply filter blur-xl animate-pulse"
             style={{ animationDelay: '4s' }}
-          ></motion.div>
+          />
         </div>
-        {/* Grid Pattern Overlay */}
-        <div
-          className="absolute inset-0 opacity-10"
-          style={{
-            backgroundImage:
-              'linear-gradient(rgba(255,255,255,.1) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,.1) 1px, transparent 1px)',
-            backgroundSize: '60px 60px',
-          }}
-        ></div>
+        <div className="absolute inset-0 opacity-10" style={{
+          backgroundImage: 'linear-gradient(rgba(255,255,255,.1) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,.1) 1px, transparent 1px)',
+          backgroundSize: '60px 60px',
+        }} />
       </div>
 
       {/* Content */}
@@ -230,10 +206,7 @@ export function HeroCarousel() {
             initial="enter"
             animate="center"
             exit="exit"
-            transition={{
-              duration: 0.6,
-              ease: [0.16, 1, 0.3, 1],
-            }}
+            transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
             className="max-w-5xl"
           >
             {/* Badge */}
@@ -320,7 +293,7 @@ export function HeroCarousel() {
                 <Button
                   size="lg"
                   variant="outline"
-                  className="border-2 border-white/30 text-white hover:bg-white/10 backdrop-blur-sm gap-2"
+                  className="border-2 border-white/50 bg-white/10 backdrop-blur-sm text-white hover:bg-white/20 hover:text-white gap-2"
                 >
                   <Phone className="h-4 w-4" />
                   Contactar
@@ -341,7 +314,7 @@ export function HeroCarousel() {
                 <button
                   key={index}
                   onClick={() => goToSlide(index)}
-                  className="relative h-2 rounded-full transition-all duration-300 overflow-hidden focus:outline-none focus:ring-2 focus:ring-white/50"
+                  className="h-2 rounded-full transition-all duration-300 overflow-hidden focus:outline-none focus:ring-2 focus:ring-white/50"
                   style={{
                     width: index === currentIndex ? '40px' : '8px',
                     backgroundColor: index === currentIndex ? 'white' : 'rgba(255,255,255,0.3)',
@@ -361,25 +334,13 @@ export function HeroCarousel() {
 
             {/* Navigation */}
             <div className="flex items-center gap-2">
-              <button
-                onClick={prevSlide}
-                className="h-10 w-10 rounded-full bg-white/10 backdrop-blur-sm border border-white/20 flex items-center justify-center hover:bg-white/20 transition-colors"
-                aria-label="Previous slide"
-              >
+              <button onClick={prevSlide} className="h-10 w-10 rounded-full bg-white/10 backdrop-blur-sm border border-white/20 flex items-center justify-center hover:bg-white/20 transition-colors" aria-label="Previous slide">
                 <ChevronLeft className="h-5 w-5 text-white" />
               </button>
-              <button
-                onClick={() => setIsPaused(!isPaused)}
-                className="h-10 w-10 rounded-full bg-white/10 backdrop-blur-sm border border-white/20 flex items-center justify-center hover:bg-white/20 transition-colors"
-                aria-label={isPaused ? 'Resume autoplay' : 'Pause autoplay'}
-              >
+              <button onClick={() => setIsPaused(!isPaused)} className="h-10 w-10 rounded-full bg-white/10 backdrop-blur-sm border border-white/20 flex items-center justify-center hover:bg-white/20 transition-colors" aria-label={isPaused ? 'Resume' : 'Pause'}>
                 <Pause className="h-4 w-4 text-white" />
               </button>
-              <button
-                onClick={nextSlide}
-                className="h-10 w-10 rounded-full bg-white/10 backdrop-blur-sm border border-white/20 flex items-center justify-center hover:bg-white/20 transition-colors"
-                aria-label="Next slide"
-              >
+              <button onClick={nextSlide} className="h-10 w-10 rounded-full bg-white/10 backdrop-blur-sm border border-white/20 flex items-center justify-center hover:bg-white/20 transition-colors" aria-label="Next slide">
                 <ChevronRight className="h-5 w-5 text-white" />
               </button>
             </div>
@@ -387,34 +348,23 @@ export function HeroCarousel() {
         </div>
       </div>
 
-      {/* Side Navigation - Slide Preview Cards */}
+      {/* Side Navigation */}
       <div className="absolute right-4 top-1/2 -translate-y-1/2 z-20 hidden lg:flex flex-col gap-2">
         {slides.map((slide, index) => {
           const SlideIcon = slide.icon;
           const isActive = index === currentIndex;
-
           return (
             <motion.button
               key={index}
               onClick={() => goToSlide(index)}
-              onMouseEnter={() => !isActive && setIsHovering(true)}
-              onMouseLeave={() => setIsHovering(false)}
               className={`relative p-3 rounded-xl border backdrop-blur-sm transition-all duration-300 group ${
-                isActive
-                  ? 'bg-white/20 border-white/40 shadow-lg scale-110'
-                  : 'bg-white/5 border-white/10 hover:bg-white/10 hover:border-white/20'
+                isActive ? 'bg-white/20 border-white/40 shadow-lg scale-110' : 'bg-white/5 border-white/10 hover:bg-white/10'
               }`}
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
             >
               <SlideIcon className={`h-5 w-5 transition-colors ${isActive ? 'text-white' : 'text-white/50 group-hover:text-white/70'}`} />
-              {/* Tooltip */}
-              <div
-                className={`absolute right-full mr-2 px-3 py-2 bg-white/90 dark:bg-slate-800/90 backdrop-blur-sm rounded-lg whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none shadow-lg ${
-                  isActive ? 'opacity-100' : ''
-                }`}
-                style={{ top: '50%', transform: 'translateY(-50%)' }}
-              >
+              <div className={`absolute right-full mr-2 px-3 py-2 bg-white/90 dark:bg-slate-800/90 backdrop-blur-sm rounded-lg whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none shadow-lg ${isActive ? 'opacity-100' : ''}`} style={{ top: '50%', transform: 'translateY(-50%)' }}>
                 <p className="text-xs font-semibold text-gray-900 dark:text-white">{slide.label}</p>
                 <p className="text-xs text-gray-600 dark:text-gray-300">{slide.title}</p>
               </div>
@@ -424,17 +374,9 @@ export function HeroCarousel() {
       </div>
 
       {/* Scroll Indicator */}
-      <motion.div
-        className="absolute bottom-8 left-1/2 -translate-x-1/2"
-        animate={{ y: [0, 8, 0] }}
-        transition={{ repeat: Infinity, duration: 1.5 }}
-      >
+      <motion.div className="absolute bottom-8 left-1/2 -translate-x-1/2" animate={{ y: [0, 8, 0] }} transition={{ repeat: Infinity, duration: 1.5 }}>
         <div className="w-6 h-10 border-2 border-white/30 rounded-full flex items-start justify-center p-2">
-          <motion.div
-            className="w-1 h-2 bg-white/60 rounded-full"
-            animate={{ y: [0, 8, 0] }}
-            transition={{ repeat: Infinity, duration: 1.5 }}
-          ></motion.div>
+          <motion.div className="w-1 h-2 bg-white/60 rounded-full" animate={{ y: [0, 8, 0] }} transition={{ repeat: Infinity, duration: 1.5 }} />
         </div>
       </motion.div>
     </section>

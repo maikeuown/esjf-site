@@ -236,9 +236,6 @@ export function Header() {
 
           {/* Actions */}
           <div className="flex items-center gap-2">
-            <Button variant="ghost" size="icon" className="hidden md:flex">
-              <Search className="h-5 w-5" />
-            </Button>
             <motion.button
               whileTap={{ scale: 0.9 }}
               onClick={toggleDarkMode}
