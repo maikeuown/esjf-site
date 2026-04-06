@@ -77,6 +77,106 @@ body {
   font-family: var(--font-sans), system-ui, sans-serif;
 }
 
+/* Card Shimmer Effect - Gradient that flows on scroll */
+.card-shimmer {
+  position: relative;
+  overflow: hidden;
+}
+
+.card-shimmer::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(219, 234, 254, 0.4),
+    rgba(191, 219, 254, 0.2),
+    transparent
+  );
+  animation: shimmer-flow 8s ease-in-out infinite;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.card-shimmer > * {
+  position: relative;
+  z-index: 1;
+}
+
+@keyframes shimmer-flow {
+  0%, 100% {
+    left: -100%;
+  }
+  50% {
+    left: 100%;
+  }
+}
+
+/* Scroll-driven version */
+.card-shimmer-scroll::before {
+  animation: none;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(219, 234, 254, 0.5),
+    rgba(191, 219, 254, 0.3),
+    transparent
+  );
+}
+
+/* Static gradient fill for left white space */
+.card-shimmer-static {
+  position: relative;
+  overflow: hidden;
+}
+
+.card-shimmer-static::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 60%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    rgba(219, 234, 254, 0.5) 0%,
+    rgba(219, 234, 254, 0.2) 50%,
+    transparent 100%
+  );
+  pointer-events: none;
+  z-index: 0;
+  border-radius: inherit;
+}
+
+.card-shimmer-static > * {
+  position: relative;
+  z-index: 1;
+}
+
+/* Dark mode adjustments */
+.dark .card-shimmer::before {
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(30, 58, 138, 0.2),
+    rgba(30, 52, 103, 0.1),
+    transparent
+  );
+}
+
+.dark .card-shimmer-static::before {
+  background: linear-gradient(
+    90deg,
+    rgba(30, 58, 138, 0.3) 0%,
+    rgba(30, 58, 138, 0.1) 50%,
+    transparent 100%
+  );
+}
+
 /* Tiptap Editor Styles */
 .tiptap {
   > * + * {

@@ -133,6 +133,23 @@ export interface ContactMessage {
   created_at: string;
 }
 
+export interface Aviso {
+  id: string;
+  title: string;
+  slug: string;
+  content: string | null;
+  excerpt: string | null;
+  priority: 'urgent' | 'normal' | 'low';
+  author_id: string | null;
+  status: ContentStatus;
+  published_at: string | null;
+  expires_at: string | null;
+  is_pinned: boolean;
+  created_at: string;
+  updated_at: string;
+  author?: Profile;
+}
+
 // Database types for Supabase
 export interface Database {
   public: {

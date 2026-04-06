@@ -10,10 +10,10 @@ import { useState } from 'react';
 const footerLinks = {
   'Links Rápidos': [
     { label: 'Início', href: '/' },
-    { label: 'A Escola', href: '/a-escola' },
+    { label: 'Escola', href: '/a-escola' },
     { label: 'Oferta Educativa', href: '/oferta-educativa' },
-    { label: 'Notícias', href: '/noticias' },
-    { label: 'Eventos', href: '/eventos' },
+    { label: 'Novidades', href: '/novidades' },
+    { label: 'Avisos', href: '/avisos' },
   ],
   'Serviços': [
     { label: 'Secretaria', href: '/servicos/secretaria' },

@@ -3,21 +3,22 @@
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useAuth } from '@/hooks/use-auth';
-import { 
-  LayoutDashboard, 
-  Newspaper, 
-  Calendar, 
-  FileText, 
-  Image, 
-  Star, 
-  Users, 
+import {
+  LayoutDashboard,
+  Newspaper,
+  Calendar,
+  FileText,
+  Image,
+  Star,
+  Users,
   BookOpen,
   MessageSquare,
   Settings,
   LogOut,
   Home,
   Menu,
-  X
+  X,
+  Megaphone
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
@@ -27,6 +28,7 @@ const adminNav = [
   { icon: LayoutDashboard, label: 'Dashboard', href: '/admin' },
   { icon: Newspaper, label: 'Notícias', href: '/admin/news' },
   { icon: Calendar, label: 'Eventos', href: '/admin/events' },
+  { icon: Megaphone, label: 'Avisos', href: '/admin/avisos' },
   { icon: BookOpen, label: 'Páginas', href: '/admin/pages' },
   { icon: FileText, label: 'Documentos', href: '/admin/documents' },
   { icon: Image, label: 'Media', href: '/admin/media' },

@@ -7,7 +7,7 @@ import { Input } from '@/components/ui/input';
 import { Newspaper, Search, ArrowRight, Calendar, Mail, Bell, Sparkles } from 'lucide-react';
 import Link from 'next/link';
 import Image from 'next/image';
-import { GlassmorphismFilters } from '@/components/ui/glassmorphism-filters';
+import { NewsFilters } from '@/components/news/news-filters';
 
 export default async function NewsPage({ searchParams }: { searchParams: Promise<{ page?: string; search?: string; category?: string }> }) {
   const supabase = await createServerClient();
@@ -60,36 +60,24 @@ export default async function NewsPage({ searchParams }: { searchParams: Promise
   return (
     <div className="container mx-auto px-4 py-12">
       {/* Header */}
-      <div className="mb-8">
+      <div className="mb-8 text-center">
         <div className="inline-flex items-center gap-2 bg-brand-100 dark:bg-brand-900/30 rounded-full px-4 py-2 mb-4">
           <Sparkles className="h-4 w-4 text-brand-600 dark:text-brand-400" />
           <span className="text-sm font-medium text-brand-700 dark:text-brand-300">Fique informado</span>
         </div>
         <h1 className="text-4xl font-bold mb-3">Notícias</h1>
-        <p className="text-muted-foreground text-lg">
+        <p className="text-muted-foreground text-lg max-w-2xl mx-auto">
           Fique a par de todas as novidades e acontecimentos da Escola Secundária José Falcão
         </p>
       </div>
 
-      {/* Glassmorphism Filters */}
-      <GlassmorphismFilters
-        searchPlaceholder="Pesquisar notícias..."
+      {/* Glassmorphism Filters - Client Component */}
+      <NewsFilters
         categories={categoryFilters}
         activeCategory={category}
         activeSearch={search}
-        onCategoryChange={(cat) => {
-          // Client-side redirect handled by form submission
-        }}
-        onSearchChange={() => {}}
-        onSearchSubmit={() => {}}
         resultCount={totalCount || 0}
       />
-
-      {/* Note: For server-side filtering, we keep the form */}
-      <form className="hidden">
-        <input name="search" defaultValue={search} />
-        <input name="category" defaultValue={category} />
-      </form>
 
       {/* News Grid */}
       {news && news.length > 0 ? (
@@ -144,7 +132,6 @@ export default async function NewsPage({ searchParams }: { searchParams: Promise
           ))}
         </div>
       ) : (
-        /* Friendly Empty State */
         <Card className="mb-8 border-dashed">
           <CardContent className="p-12 text-center">
             <div className="max-w-md mx-auto">

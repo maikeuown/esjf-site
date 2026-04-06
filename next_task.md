@@ -1,81 +1,38 @@
-# Relatório de Modernização Web: Escola Secundária José Falcão (ESJF)
 
-**Autor:** Manus AI  
-**Data:** 6 de abril de 2026
 
-## 1. Análise de Design: O Estilo "Projetos e Serviços"
+### 1. Correções Críticas (Bugs)
+- **Erro 500 em Notícias:** Diagnostica e corrige o erro de servidor que impede o carregamento da página de notícias.
+- **Filtros de Documentos:** Implementa a funcionalidade dos botões de pesquisa e filtros na página de documentos.
+- **Alinhamento:** Garante que todos os títulos e descrições estejam devidamente centralizados em todo o site.
 
-Após uma análise aprofundada, as páginas de **Projetos** e **Serviços** destacam-se como as mais bem estruturadas do site atual. Elas utilizam um layout de cartões (cards) com ícones coloridos e tipografia clara que deve servir de base para a reestruturação de todo o portal.
+### 2. Estrutura de Navegação e Homepage
+- **Menu:** Cria um menu "Mega Menu" moderno com animações suaves (Framer Motion). Renomeia "A Escola" para "Escola". Adiciona um novo item "Novidades" contendo "Eventos", "Noticias" e uma nova secção "Avisos". Devem ser criados todos os componentes necessarios para criacao de avisos por parte do backend (admin)
+- **Homepage:** Substitui a hero section por um layout de 3 secções principais: "Avisos", "Notícias" e "Eventos".
 
-### Pontos Fortes a Preservar:
-- **Hierarquia Visual:** Uso de ícones para identificação rápida de categorias.
-- **Limpeza:** Fundo branco com bordas suaves que facilitam a leitura.
-- **Chamadas de Ação (CTA):** Links "Saber mais" claros e bem posicionados.
+### 3. Visualização de Conteúdo
+- **Avisos na Home:** Cria uma secção de "Avisos" na página inicial, exibindo os mais recentes.
+- **Eventos (Event Horizon):** Implementa um Bento Grid Dinâmico para eventos dos próximos 2 meses na Home, com um "Time-Slider" para filtragem.
 
----
+### 4. Estilo e UI
+- **Filtros (Notícias e Eventos):** Redesenha a barra de pesquisa e filtros para um estilo "Glassmorphism" com "Pills" interativas.
+- **Estilo Geral:** Aplica a estética de cartões de 'Serviços' a todo o site, com sombras suaves, cantos arredondados e micro-interações.
+- **Algo Novo: ** I have multiple white cards (like the three in the image: Ensino Básico, Ensino Secundário, Cursos Profissionais). Each card has a lot of white space on the left side next to the icon.
+I want to add the same decorative effect to every card that has this white space:
 
-## 2. Propostas de Design Inovadoras
+Fill the left side with a very light shade of blue (soft, elegant, not bright).
+Make it a gradient that starts stronger on the left and smoothly vanishes/fades towards the right side of the card.
+When the user scrolls up or down the page, the blue color should give a smooth moving/flowing effect inside the card — like the light blue is gently sliding or shimmering across the white space.
 
-### 2.1. Visualização de Eventos: O "Event Horizon" (Próximos 2 Meses)
-Em vez de uma lista linear ou um calendário tradicional, propomos uma visualização de **Linha do Tempo Circular ou Bento Dinâmico** para os eventos dos próximos 60 dias:
+Apply this effect to all similar cards automatically. It should look modern and subtle.
+Please generate the CSS code for this. Prefer Tailwind CSS classes if possible, otherwise pure CSS with custom properties. Also include a version that works with scroll-driven animation or background-position animation triggered by scroll.
+The cards have this structure:
 
-- **O Conceito:** Um componente de "Bento Grid" dinâmico na Home onde o tamanho do cartão indica a proximidade ou importância do evento.
-- **Interatividade:** Os eventos dos próximos 2 meses aparecem em cartões de tamanhos variados. Ao passar o rato (hover), o cartão expande para mostrar detalhes.
-- **Filtro de Tempo:** Um seletor deslizante (slider) que permite ao utilizador filtrar visualmente "Esta Semana", "Este Mês" e "Próximo Mês", reorganizando os cartões com animações suaves (Framer Motion).
+A container div with class like "rounded border p-6" or similar
+Inside: icon on top, title, description, and "Saber mais" link
 
-### 2.2. Reestilização de Filtros e Pesquisa
-Atualmente, os filtros de Notícias e Eventos são básicos e "misturam-se" demasiado com o fundo. A proposta é uma **Barra de Ferramentas Flutuante (Glassmorphism)**:
-
-- **Estética:** Uma barra com efeito de vidro fosco que se destaca do conteúdo.
-- **Filtros por Tags:** Em vez de dropdowns, usar "Pills" (etiquetas) clicáveis que mudam de cor quando ativas, semelhantes às usadas em apps modernas de produtividade.
-- **Pesquisa Preditiva:** Uma barra de pesquisa que sugere resultados instantaneamente enquanto o utilizador digita, com miniaturas de imagens.
-
----
-
-## 3. Auditoria de Funcionalidade (Teste de Botões)
-
-| Secção | Estado | Observação |
-| :--- | :--- | :--- |
-| **Hero Section (Home)** | ⚠️ Crítico | Botão "Contactar" tem texto invisível. |
-| **Menu Dropdown** | 🔴 Ineficiente | Redundante; redireciona para páginas que apenas repetem o menu. |
-| **Filtros de Notícias** | 🟠 Pobre | Design datado; não oferece feedback visual claro de seleção. |
-| **Rodapé (Footer)** | 🔴 Horrível | Falta de estrutura; links amontoados sem hierarquia. |
-
----
-
-## 4. Prompt Consolidado para Qwen Code
-
-```markdown
-Por favor, executa uma refatoração completa do website da ESJF focando na modernização estética e funcionalidade avançada:
-
-### 1. Sistema de Navegação e Rodapé
-- **Menu:** Cria um menu "Mega Menu" moderno com animações suaves (Framer Motion). Deve suportar múltiplos níveis e incluir ícones representativos para cada secção.
-- **Footer:** Reconstrói o rodapé do zero. Usa um layout de 4 colunas: (1) Logo e Missão, (2) Links Rápidos, (3) Contactos Diretos com ícones, (4) Redes Sociais e Newsletter.
-
-### 2. Visualização de Eventos (Inovação)
-- Substitui a lista de eventos na Home por um **Bento Grid Dinâmico**.
-- Este grid deve mostrar eventos dos próximos 2 meses.
-- Implementa um "Time-Slider" que filtra os eventos por proximidade.
-- Usa animações de layout para que os cartões se reorganizem suavemente ao filtrar.
-
-### 3. Filtros de Notícias e Eventos
-- Redesenha a barra de pesquisa e filtros para um estilo **Glassmorphism**.
-- Substitui dropdowns por **Tags/Pills** interativas.
-- Adiciona feedback visual (ex: glow ou mudança de escala) quando um filtro está ativo.
-
-### 4. Estilo Geral (Inspirado em 'Projetos' e 'Serviços')
-- Aplica a estética de cartões de 'Serviços' a todo o site, mas com toques modernos: sombras suaves (box-shadow: soft), cantos arredondados (border-radius: 1.5rem) e micro-interações de hover.
-- Corrige o botão "Contactar" na Hero Section (garante contraste de cor).
+Make sure the effect only affects the white space and doesn't interfere with the text or icon."
 
 ### 5. Tecnologias
 - Frontend: Next.js + Tailwind CSS.
 - Animações: Framer Motion.
 - Ícones: Lucide-React.
-```
-
----
-
-## Referências e Benchmarking
-- **Design de Calendários Modernos:** [Eleken UI Trends](https://www.eleken.co/blog-posts/calendar-ui) [5]
-- **Bento Grid Patterns:** [Bento Grids Showcase](https://bentogrids.com/)
-- **Framer Motion Best Practices:** [Framer Motion Documentation](https://www.framer.com/motion/)

@@ -2,19 +2,19 @@
 
 import Link from 'next/link';
 import { useState, useEffect } from 'react';
-import { Menu, X, Search, Moon, Sun, ChevronDown, Home, BookOpen, GraduationCap, Newspaper, Calendar, Trophy, Wrench, FileText, Phone, Clock, Users, Palette, Globe, Heart, Dumbbell, Music } from 'lucide-react';
+import { Menu, X, Search, Moon, Sun, ChevronDown, Home, BookOpen, GraduationCap, Newspaper, Calendar, Trophy, Wrench, FileText, Phone, Clock, Users, Palette, Globe, Heart, Dumbbell, Music, Megaphone, Bell } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Button } from '@/components/ui/button';
 import { useAuth } from '@/hooks/use-auth';
 
 const navItems = [
-  { 
-    label: 'Início', 
-    href: '/', 
-    icon: Home 
+  {
+    label: 'Início',
+    href: '/',
+    icon: Home
   },
   {
-    label: 'A Escola',
+    label: 'Escola',
     href: '/a-escola',
     icon: GraduationCap,
     description: 'Conheça a nossa história e valores',
@@ -36,39 +36,38 @@ const navItems = [
       { label: 'Cursos Profissionais', href: '/oferta-educativa/cursos-profissionais', icon: Wrench, description: 'Formação técnica' },
     ]
   },
-  { 
-    label: 'Notícias', 
-    href: '/noticias', 
-    icon: Newspaper,
-    description: 'Últimas novidades'
+  {
+    label: 'Novidades',
+    href: '/novidades',
+    icon: Bell,
+    description: 'Notícias, Eventos e Avisos',
+    submenu: [
+      { label: 'Notícias', href: '/noticias', icon: Newspaper, description: 'Últimas novidades' },
+      { label: 'Eventos', href: '/eventos', icon: Calendar, description: 'Calendário escolar' },
+      { label: 'Avisos', href: '/avisos', icon: Megaphone, description: 'Comunicados importantes' },
+    ]
   },
-  { 
-    label: 'Eventos', 
-    href: '/eventos', 
-    icon: Calendar,
-    description: 'Calendário escolar'
-  },
-  { 
-    label: 'Projetos', 
-    href: '/projetos', 
+  {
+    label: 'Projetos',
+    href: '/projetos',
     icon: Trophy,
     description: 'Atividades e projetos'
   },
-  { 
-    label: 'Serviços', 
-    href: '/servicos', 
+  {
+    label: 'Serviços',
+    href: '/servicos',
     icon: Wrench,
     description: 'Secretaria, Biblioteca, SPO'
   },
-  { 
-    label: 'Documentos', 
-    href: '/documentos', 
+  {
+    label: 'Documentos',
+    href: '/documentos',
     icon: FileText,
     description: 'Regulamentos e circulares'
   },
-  { 
-    label: 'Contactos', 
-    href: '/contactos', 
+  {
+    label: 'Contactos',
+    href: '/contactos',
     icon: Phone,
     description: 'Fale connosco'
   },
