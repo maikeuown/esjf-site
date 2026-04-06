@@ -1,6 +1,6 @@
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
-import { Calendar, BookOpen, Clock, Users, ArrowRight, GraduationCap, Trophy, Newspaper, MapPin, Phone, Mail } from 'lucide-react';
+import { Calendar, BookOpen, Clock, Users, ArrowRight, GraduationCap, Trophy, Newspaper, MapPin, Phone, Mail, Megaphone, Bell, Sparkles, Pin } from 'lucide-react';
 import { createServerClient } from '@/lib/supabase/server';
 import { formatDate } from '@/lib/utils';
 import Image from 'next/image';
@@ -8,16 +8,34 @@ import { BentoGrid, BentoGridItem } from '@/components/ui/bento-grid';
 import { WeekCalendar } from '@/components/home/week-calendar';
 import { AnimatedSection } from '@/components/ui/animated-section';
 
+const priorityConfig = {
+  urgent: { label: 'Urgente', className: 'bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200' },
+  normal: { label: 'Normal', className: 'bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200' },
+  low: { label: 'Baixa', className: 'bg-gray-100 text-gray-800 dark:bg-gray-900 dark:text-gray-200' },
+};
+
 export default async function Home() {
   const supabase = await createServerClient();
 
-  // Fetch highlights for carousel
+  // Fetch highlights
   const { data: highlights } = await supabase
     .from('highlights')
     .select('*')
     .eq('is_active', true)
     .order('order_index', { ascending: true })
     .limit(5);
+
+  // Fetch recent avisos
+  const { data: avisos } = await supabase
+    .from('avisos')
+    .select(`
+      *,
+      author:profiles(full_name)
+    `)
+    .eq('status', 'published')
+    .order('is_pinned', { ascending: false })
+    .order('published_at', { ascending: false })
+    .limit(3);
 
   // Fetch latest news
   const { data: latestNews } = await supabase
@@ -40,9 +58,13 @@ export default async function Home() {
     .order('start_date', { ascending: true })
     .limit(8);
 
+  // Filter out expired avisos
+  const now = new Date().toISOString();
+  const activeAvisos = avisos?.filter(a => !a.expires_at || a.expires_at > now) || [];
+
   return (
     <div>
-      {/* Hero Section - Immersive with Gradient Background */}
+      {/* Hero Section - Modern 3-Section Layout */}
       <section className="relative min-h-[85vh] flex items-center overflow-hidden bg-gradient-to-br from-brand-900 via-brand-800 to-brand-700">
         {/* Animated Background Pattern */}
         <div className="absolute inset-0">
@@ -71,12 +93,12 @@ export default async function Home() {
               Escola Secundária
               <span className="block text-brand-200">José Falcão</span>
             </h1>
-            
+
             <p className="text-lg sm:text-xl md:text-2xl mb-4 text-white/90 font-light">
               Um dos primeiros Liceus de Portugal. Fundada em 1936.
             </p>
             <p className="text-base sm:text-lg mb-8 text-white/70 max-w-2xl">
-              Educação para a cidadania, para os valores e para a paz. 
+              Educação para a cidadania, para os valores e para a paz.
               Atualmente em reabilitação profunda com investimento de 23,8 milhões de euros.
             </p>
 
@@ -121,20 +143,22 @@ export default async function Home() {
         </div>
       </section>
 
-      {/* Quick Links */}
+      {/* Quick Links - With Glow Lift Pulse Effect */}
       <section className="py-12 bg-secondary">
         <div className="container mx-auto px-4">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
             {[
-              { icon: BookOpen, label: 'Plataformas', href: '/plataformas', color: 'text-blue-600' },
-              { icon: Calendar, label: 'Calendário', href: '/eventos', color: 'text-green-600' },
-              { icon: Clock, label: 'Secretaria', href: '/servicos/secretaria', color: 'text-amber-600' },
-              { icon: Users, label: 'Documentos', href: '/documentos', color: 'text-purple-600' },
+              { icon: BookOpen, label: 'Plataformas', href: '/plataformas', color: 'blue' as const, bgColor: 'bg-blue-100 dark:bg-blue-900/30', textColor: 'text-blue-600 dark:text-blue-400' },
+              { icon: Calendar, label: 'Calendário', href: '/eventos', color: 'emerald' as const, bgColor: 'bg-emerald-100 dark:bg-emerald-900/30', textColor: 'text-emerald-600 dark:text-emerald-400' },
+              { icon: Clock, label: 'Secretaria', href: '/servicos/secretaria', color: 'amber' as const, bgColor: 'bg-amber-100 dark:bg-amber-900/30', textColor: 'text-amber-600 dark:text-amber-400' },
+              { icon: Users, label: 'Documentos', href: '/documentos', color: 'purple' as const, bgColor: 'bg-purple-100 dark:bg-purple-900/30', textColor: 'text-purple-600 dark:text-purple-400' },
             ].map((item, i) => (
-              <Link key={i} href={item.href} className="group">
-                <div className="bg-background rounded-2xl p-6 text-center hover:shadow-xl hover:-translate-y-1 transition-all duration-300 border border-border/50">
-                  <item.icon className={`h-8 w-8 mx-auto mb-3 ${item.color}`} />
-                  <h3 className="font-semibold text-sm">{item.label}</h3>
+              <Link key={i} href={item.href} className="group block">
+                <div className="card bg-background rounded-2xl p-6 text-center border border-border/50 cursor-pointer">
+                  <div className={`icon-glow icon-glow-${item.color} h-12 w-12 rounded-xl ${item.bgColor} flex items-center justify-center mx-auto mb-3 transition-all duration-400`}>
+                    <item.icon className={`h-6 w-6 ${item.textColor}`} />
+                  </div>
+                  <h3 className="font-semibold text-sm text-glow">{item.label}</h3>
                 </div>
               </Link>
             ))}
@@ -142,9 +166,98 @@ export default async function Home() {
         </div>
       </section>
 
+      {/* Avisos Section */}
+      {activeAvisos.length > 0 && (
+        <section className="py-16">
+          <div className="container mx-auto px-4">
+            <AnimatedSection>
+              <div className="flex items-center justify-between mb-10">
+                <div>
+                  <div className="inline-flex items-center gap-2 bg-amber-100 dark:bg-amber-900/30 rounded-full px-4 py-2 mb-3">
+                    <Megaphone className="h-4 w-4 text-amber-600 dark:text-amber-400" />
+                    <span className="text-sm font-medium text-amber-700 dark:text-amber-300">Comunicados</span>
+                  </div>
+                  <h2 className="text-3xl font-bold mb-2">Avisos Importantes</h2>
+                  <p className="text-muted-foreground text-lg max-w-2xl">
+                    Comunicados e avisos importantes da Escola Secundária José Falcão
+                  </p>
+                </div>
+                <Link href="/avisos">
+                  <Button variant="outline" className="gap-2">
+                    Ver todos
+                    <ArrowRight className="h-4 w-4" />
+                  </Button>
+                </Link>
+              </div>
+            </AnimatedSection>
+
+            <div className="space-y-4">
+              {activeAvisos.map((aviso, i) => {
+                const priority = priorityConfig[aviso.priority as keyof typeof priorityConfig] || priorityConfig.normal;
+                
+                return (
+                  <AnimatedSection key={aviso.id} delay={i * 0.1}>
+                    <Link href={`/avisos/${aviso.slug}`} className="group block">
+                      <div className="card border-border/50 rounded-2xl overflow-hidden cursor-pointer">
+                        <div className="p-6">
+                          <div className="flex items-start gap-4">
+                            {/* Icon */}
+                            <div className={`icon-glow icon-glow-${aviso.is_pinned ? 'amber' : 'brand'} h-12 w-12 rounded-xl ${
+                              aviso.is_pinned 
+                                ? 'bg-amber-100 dark:bg-amber-900/30' 
+                                : 'bg-brand-100 dark:bg-brand-900/30'
+                            } flex items-center justify-center shrink-0 transition-all duration-400`}>
+                              {aviso.is_pinned ? (
+                                <Pin className="h-6 w-6 text-amber-600 dark:text-amber-400" />
+                              ) : (
+                                <Bell className="h-6 w-6 text-brand-600 dark:text-brand-400" />
+                              )}
+                            </div>
+
+                            {/* Content */}
+                            <div className="flex-1 min-w-0">
+                              <div className="flex flex-wrap items-center gap-2 mb-2">
+                                <span className={`px-3 py-1 text-xs font-semibold rounded-full ${priority.className}`}>
+                                  {priority.label}
+                                </span>
+                                {aviso.is_pinned && (
+                                  <span className="px-3 py-1 text-xs font-semibold rounded-full bg-amber-100 text-amber-800 dark:bg-amber-900 dark:text-amber-200 flex items-center gap-1">
+                                    <Pin className="h-3 w-3" />
+                                    Fixado
+                                  </span>
+                                )}
+                              </div>
+                              <h3 className="text-xl font-semibold mb-2 text-glow group-hover:text-brand-600 dark:group-hover:text-brand-400 transition-colors">
+                                {aviso.title}
+                              </h3>
+                              {aviso.excerpt && (
+                                <p className="text-muted-foreground text-sm line-clamp-2 mb-3 text-glow">
+                                  {aviso.excerpt}
+                                </p>
+                              )}
+                              <div className="flex items-center text-sm text-muted-foreground">
+                                <Calendar className="h-4 w-4 mr-1" />
+                                {aviso.published_at ? formatDate(new Date(aviso.published_at)) : 'Recente'}
+                              </div>
+                            </div>
+
+                            {/* Arrow */}
+                            <ArrowRight className="h-5 w-5 text-muted-foreground group-hover:text-brand-600 dark:group-hover:text-brand-400 group-hover:translate-x-1 transition-all" />
+                          </div>
+                        </div>
+                      </div>
+                    </Link>
+                  </AnimatedSection>
+                );
+              })}
+            </div>
+          </div>
+        </section>
+      )}
+
       {/* Bento Grid - Highlights & Featured Content */}
       {highlights && highlights.length > 0 && (
-        <section className="py-16">
+        <section className="py-16 bg-gradient-to-b from-background to-secondary/30">
           <div className="container mx-auto px-4">
             <AnimatedSection>
               <div className="text-center mb-12">
@@ -173,11 +286,15 @@ export default async function Home() {
       )}
 
       {/* Latest News */}
-      <section className="py-16 bg-gradient-to-b from-background to-secondary/30">
+      <section className="py-16">
         <div className="container mx-auto px-4">
           <AnimatedSection>
             <div className="flex items-center justify-between mb-10">
               <div>
+                <div className="inline-flex items-center gap-2 bg-blue-100 dark:bg-blue-900/30 rounded-full px-4 py-2 mb-3">
+                  <Newspaper className="h-4 w-4 text-blue-600 dark:text-blue-400" />
+                  <span className="text-sm font-medium text-blue-700 dark:text-blue-300">Atualidade</span>
+                </div>
                 <h2 className="text-3xl font-bold mb-2">Últimas Notícias</h2>
                 <p className="text-muted-foreground text-lg">
                   Fique a par de tudo o que acontece na nossa escola
@@ -196,7 +313,7 @@ export default async function Home() {
             {latestNews?.map((news, i) => (
               <AnimatedSection key={news.id} delay={i * 0.1}>
                 <Link href={`/noticias/${news.slug}`} className="group block">
-                  <article className="bg-background rounded-2xl border overflow-hidden hover:shadow-xl hover:-translate-y-1 transition-all duration-300 h-full">
+                  <article className="card bg-background rounded-2xl border overflow-hidden cursor-pointer">
                     {news.featured_image_url && (
                       <div className="relative h-48 overflow-hidden bg-muted">
                         <Image
@@ -217,11 +334,11 @@ export default async function Home() {
                           {news.category.name}
                         </span>
                       )}
-                      <h3 className="text-xl font-semibold mb-2 line-clamp-2 group-hover:text-brand-600 dark:group-hover:text-brand-400 transition-colors">
+                      <h3 className="text-xl font-semibold mb-2 text-glow line-clamp-2 group-hover:text-brand-600 dark:group-hover:text-brand-400 transition-colors">
                         {news.title}
                       </h3>
                       {news.excerpt && (
-                        <p className="text-muted-foreground text-sm line-clamp-3 mb-4">
+                        <p className="text-muted-foreground text-sm line-clamp-3 mb-4 text-glow">
                           {news.excerpt}
                         </p>
                       )}
@@ -248,11 +365,15 @@ export default async function Home() {
       </section>
 
       {/* Events Calendar Preview */}
-      <section className="py-16">
+      <section className="py-16 bg-gradient-to-b from-secondary/30 to-background">
         <div className="container mx-auto px-4">
           <AnimatedSection>
             <div className="flex items-center justify-between mb-10">
               <div>
+                <div className="inline-flex items-center gap-2 bg-emerald-100 dark:bg-emerald-900/30 rounded-full px-4 py-2 mb-3">
+                  <Calendar className="h-4 w-4 text-emerald-600 dark:text-emerald-400" />
+                  <span className="text-sm font-medium text-emerald-700 dark:text-emerald-300">Agenda</span>
+                </div>
                 <h2 className="text-3xl font-bold mb-2">Próximos Eventos</h2>
                 <p className="text-muted-foreground text-lg">
                   Não perca os eventos da nossa escola
@@ -364,33 +485,25 @@ export default async function Home() {
       <section className="py-12 bg-secondary">
         <div className="container mx-auto px-4">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            <a href="tel:+351239487170" className="flex items-center gap-4 p-6 bg-background rounded-2xl border hover:shadow-lg transition-shadow">
-              <div className="h-12 w-12 rounded-xl bg-brand-100 dark:bg-brand-900/30 flex items-center justify-center">
-                <Phone className="h-6 w-6 text-brand-600 dark:text-brand-400" />
-              </div>
-              <div>
-                <h4 className="font-semibold text-sm">Telefone</h4>
-                <p className="text-muted-foreground text-sm">239 487 170 / 171 / 172</p>
-              </div>
-            </a>
-            <a href="mailto:geral@esjf.pt" className="flex items-center gap-4 p-6 bg-background rounded-2xl border hover:shadow-lg transition-shadow">
-              <div className="h-12 w-12 rounded-xl bg-brand-100 dark:bg-brand-900/30 flex items-center justify-center">
-                <Mail className="h-6 w-6 text-brand-600 dark:text-brand-400" />
-              </div>
-              <div>
-                <h4 className="font-semibold text-sm">Email</h4>
-                <p className="text-muted-foreground text-sm">geral@esjf.pt</p>
-              </div>
-            </a>
-            <a href="/contactos" className="flex items-center gap-4 p-6 bg-background rounded-2xl border hover:shadow-lg transition-shadow">
-              <div className="h-12 w-12 rounded-lg bg-brand-100 dark:bg-brand-900/30 flex items-center justify-center">
-                <MapPin className="h-6 w-6 text-brand-600 dark:text-brand-400" />
-              </div>
-              <div>
-                <h4 className="font-semibold text-sm">Morada</h4>
-                <p className="text-muted-foreground text-sm">Av. Dom Afonso Henriques, Coimbra</p>
-              </div>
-            </a>
+            {[
+              { icon: Phone, label: 'Telefone', content: '239 487 170 / 171 / 172', href: 'tel:+351239487170', color: 'blue' as const },
+              { icon: Mail, label: 'Email', content: 'geral@esjf.pt', href: 'mailto:geral@esjf.pt', color: 'emerald' as const },
+              { icon: MapPin, label: 'Morada', content: 'Av. Dom Afonso Henriques, Coimbra', href: '/contactos', color: 'amber' as const },
+            ].map((item, i) => (
+              <a key={i} href={item.href} className="group block">
+                <div className="card bg-background rounded-2xl border border-border/50 cursor-pointer">
+                  <div className="p-6 flex items-center gap-4">
+                    <div className={`icon-glow icon-glow-${item.color} h-12 w-12 rounded-xl bg-brand-100 dark:bg-brand-900/30 flex items-center justify-center shrink-0 transition-all duration-400`}>
+                      <item.icon className="h-6 w-6 text-brand-600 dark:text-brand-400" />
+                    </div>
+                    <div>
+                      <h4 className="font-semibold text-sm text-glow">{item.label}</h4>
+                      <p className="text-muted-foreground text-sm text-glow">{item.content}</p>
+                    </div>
+                  </div>
+                </div>
+              </a>
+            ))}
           </div>
         </div>
       </section>
