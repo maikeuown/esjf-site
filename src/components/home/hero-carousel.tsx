@@ -3,7 +3,7 @@
 import { useState, useEffect, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Button } from '@/components/ui/button';
-import { ArrowRight, GraduationCap, BookOpen, Bell, Trophy, Wrench, FileText, Phone, MapPin, Clock, Users, Heart, Calendar, Megaphone, Newspaper, ChevronLeft, ChevronRight, Pause } from 'lucide-react';
+import { ArrowRight, GraduationCap, BookOpen, Bell, Trophy, Wrench, FileText, Phone, MapPin, Clock, Users, Heart, Calendar, Megaphone, Newspaper, ChevronLeft, ChevronRight } from 'lucide-react';
 import Link from 'next/link';
 
 interface CarouselSlide {
@@ -336,9 +336,6 @@ export function HeroCarousel() {
             <div className="flex items-center gap-2">
               <button onClick={prevSlide} className="h-10 w-10 rounded-full bg-white/10 backdrop-blur-sm border border-white/20 flex items-center justify-center hover:bg-white/20 transition-colors" aria-label="Previous slide">
                 <ChevronLeft className="h-5 w-5 text-white" />
-              </button>
-              <button onClick={() => setIsPaused(!isPaused)} className="h-10 w-10 rounded-full bg-white/10 backdrop-blur-sm border border-white/20 flex items-center justify-center hover:bg-white/20 transition-colors" aria-label={isPaused ? 'Resume' : 'Pause'}>
-                <Pause className="h-4 w-4 text-white" />
               </button>
               <button onClick={nextSlide} className="h-10 w-10 rounded-full bg-white/10 backdrop-blur-sm border border-white/20 flex items-center justify-center hover:bg-white/20 transition-colors" aria-label="Next slide">
                 <ChevronRight className="h-5 w-5 text-white" />

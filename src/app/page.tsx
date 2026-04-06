@@ -1,11 +1,8 @@
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
-import { Calendar, BookOpen, Clock, Users, ArrowRight, GraduationCap, Trophy, MapPin, Phone, Bell, Pin, Megaphone, Newspaper, Mail } from 'lucide-react';
+import { Calendar, BookOpen, Clock, Users, ArrowRight, GraduationCap, Trophy, MapPin, Phone, Bell, Pin, Megaphone, Mail } from 'lucide-react';
 import { createServerClient } from '@/lib/supabase/server';
 import { formatDate } from '@/lib/utils';
-import Image from 'next/image';
-import { BentoGrid, BentoGridItem } from '@/components/ui/bento-grid';
-import { WeekCalendar } from '@/components/home/week-calendar';
 import { AnimatedSection } from '@/components/ui/animated-section';
 import { HeroCarousel } from '@/components/home/hero-carousel';
 import { NovidadesSection } from '@/components/home/novidades-section';
@@ -19,28 +16,17 @@ const priorityConfig = {
 export default async function Home() {
   const supabase = await createServerClient();
 
-  // Fetch highlights
-  const { data: highlights } = await supabase
-    .from('highlights')
-    .select('*')
-    .eq('is_active', true)
-    .order('order_index', { ascending: true })
-    .limit(5);
-
   // Fetch recent avisos (with error handling if table doesn't exist yet)
   let avisos: any[] = [];
   try {
     const result = await supabase
       .from('avisos')
-      .select(`
-        *,
-        author:profiles(full_name)
-      `)
+      .select('*')
       .eq('status', 'published')
       .order('is_pinned', { ascending: false })
       .order('published_at', { ascending: false })
       .limit(3);
-    
+
     if (!result.error) {
       avisos = result.data || [];
     }
@@ -49,26 +35,7 @@ export default async function Home() {
     console.log('Avisos table not found, skipping...');
   }
 
-  // Fetch latest news
-  const { data: latestNews } = await supabase
-    .from('news')
-    .select(`
-      *,
-      category:news_categories(name, slug, color),
-      author:profiles(full_name)
-    `)
-    .eq('status', 'published')
-    .order('published_at', { ascending: false })
-    .limit(6);
-
-  // Fetch upcoming events
-  const { data: upcomingEvents } = await supabase
-    .from('events')
-    .select('*')
-    .eq('status', 'published')
-    .gte('start_date', new Date().toISOString())
-    .order('start_date', { ascending: true })
-    .limit(8);
+  // Fetch upcoming events (removed, not used anymore)
 
   // Filter out expired avisos
   const now = new Date().toISOString();
@@ -191,36 +158,6 @@ export default async function Home() {
         </section>
       )}
 
-      {/* Bento Grid - Highlights & Featured Content */}
-      {highlights && highlights.length > 0 && (
-        <section className="py-16 bg-gradient-to-b from-background to-secondary/30">
-          <div className="container mx-auto px-4">
-            <AnimatedSection>
-              <div className="text-center mb-12">
-                <h2 className="text-3xl font-bold mb-3">Destaques</h2>
-                <p className="text-muted-foreground text-lg max-w-2xl mx-auto">
-                  Informação importante e novidades da nossa escola
-                </p>
-              </div>
-            </AnimatedSection>
-
-            <BentoGrid>
-              {highlights.slice(0, 5).map((highlight, i) => (
-                <BentoGridItem
-                  key={highlight.id}
-                  title={highlight.title}
-                  description={highlight.description || ''}
-                  href={highlight.link_url || '#'}
-                  className={i === 0 ? 'md:col-span-2 md:row-span-2' : ''}
-                  icon={highlight.icon_url ? undefined : Newspaper}
-                  image={highlight.image_url}
-                />
-              ))}
-            </BentoGrid>
-          </div>
-        </section>
-      )}
-
       {/* Novidades Section - 3 Columns (Avisos/Notícias/Eventos) */}
       <NovidadesSection />
 
@@ -261,7 +198,7 @@ export default async function Home() {
                 </div>
                 
                 <Link href="/a-escola">
-                  <Button className="gap-2 bg-brand-600 hover:bg-brand-700">
+                  <Button className="gap-2 bg-brand-600 hover:bg-brand-700 text-white">
                     Saber mais sobre a escola
                     <ArrowRight className="h-4 w-4" />
                   </Button>

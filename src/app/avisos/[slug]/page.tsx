@@ -110,7 +110,7 @@ export default async function AvisoDetailPage({ params }: AvisoPageProps) {
         {/* Content */}
         {aviso.content && (
           <div
-            className="prose prose-lg max-w-none mb-12"
+            className="rendered-content max-w-none mb-12"
             dangerouslySetInnerHTML={{ __html: aviso.content }}
           />
         )}

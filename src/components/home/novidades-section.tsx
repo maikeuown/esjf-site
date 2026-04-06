@@ -2,10 +2,9 @@
 
 import { useState } from 'react';
 import { Card, CardContent } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Megaphone, Newspaper, Calendar, ArrowRight } from 'lucide-react';
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 import Link from 'next/link';
 
 const avisosData = [
@@ -39,34 +38,39 @@ function ColumnHeader({ title, icon: Icon, href }: { title: string; icon: React.
   const [isHovered, setIsHovered] = useState(false);
 
   return (
-    <div className="flex items-center justify-between mb-6 relative">
+    <div
+      className="flex items-center mb-6 relative overflow-hidden"
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
+    >
+      {/* Centered title */}
       <motion.div
-        className="flex items-center gap-2"
-        animate={isHovered ? { x: -60 } : { x: 0 }}
+        className="flex-1 flex items-center justify-center gap-2"
+        animate={isHovered ? { x: -60, justifyContent: 'flex-start' } : { x: 0, justifyContent: 'center' }}
         transition={{ type: 'spring', stiffness: 300, damping: 25 }}
-        onMouseEnter={() => setIsHovered(true)}
-        onMouseLeave={() => setIsHovered(false)}
       >
         <Icon className="h-6 w-6 text-brand-600 dark:text-brand-400" />
         <h2 className="text-2xl font-bold">{title}</h2>
       </motion.div>
 
-      <motion.div
-        className="absolute right-0"
-        initial={false}
-        animate={{
-          opacity: isHovered ? 1 : 0,
-          x: isHovered ? 0 : 20,
-        }}
-        transition={{ duration: 0.2 }}
-        style={{ pointerEvents: isHovered ? 'auto' : 'none' as const }}
-      >
-        <Link href={href}>
-          <Button variant="ghost" size="sm" className="gap-1 whitespace-nowrap">
-            Ver todos <ArrowRight className="h-3 w-3" />
-          </Button>
-        </Link>
-      </motion.div>
+      {/* Ver todos button - appears on hover */}
+      <AnimatePresence>
+        {isHovered && (
+          <motion.div
+            initial={{ opacity: 0, x: 20 }}
+            animate={{ opacity: 1, x: 0 }}
+            exit={{ opacity: 0, x: 20 }}
+            transition={{ duration: 0.2 }}
+            className="absolute right-0"
+          >
+            <Link href={href}>
+              <span className="inline-flex items-center gap-1 text-sm font-medium text-brand-600 dark:text-brand-400 hover:underline cursor-pointer">
+                Ver todos <ArrowRight className="h-3 w-3" />
+              </span>
+            </Link>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   );
 }
@@ -75,11 +79,11 @@ export function NovidadesSection() {
   return (
     <section className="py-16 bg-gradient-to-b from-secondary/30 to-background">
       <div className="container mx-auto px-4">
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
           {/* Avisos Column */}
           <div>
             <ColumnHeader title="Avisos" icon={Megaphone} href="/avisos" />
-            <div className="space-y-4">
+            <div className="space-y-3">
               {avisosData.map((aviso) => {
                 const priority = priorityConfig[aviso.priority] || priorityConfig.normal;
                 return (
@@ -101,7 +105,7 @@ export function NovidadesSection() {
           {/* Notícias Column */}
           <div>
             <ColumnHeader title="Notícias" icon={Newspaper} href="/noticias" />
-            <div className="space-y-4">
+            <div className="space-y-3">
               {newsData.map((item) => (
                 <Link key={item.id} href={`/noticias/${item.slug}`}>
                   <Card className="card-glow-lift-pulse border-border/50 cursor-pointer">
@@ -120,7 +124,7 @@ export function NovidadesSection() {
           {/* Eventos Column */}
           <div>
             <ColumnHeader title="Eventos" icon={Calendar} href="/eventos" />
-            <div className="space-y-4">
+            <div className="space-y-3">
               {eventsData.map((event) => (
                 <Link key={event.id} href={`/eventos/${event.slug}`}>
                   <Card className="card-glow-lift-pulse border-border/50 cursor-pointer">

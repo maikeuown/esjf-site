@@ -17,10 +17,7 @@ export default async function AvisosPage() {
 
   const { data: avisos } = await supabase
     .from('avisos')
-    .select(`
-      *,
-      author:profiles(full_name)
-    `)
+    .select('*')
     .eq('status', 'published')
     .order('is_pinned', { ascending: false })
     .order('published_at', { ascending: false }) as { data: any[] | null };
@@ -97,9 +94,6 @@ export default async function AvisosPage() {
                             <Clock className="h-4 w-4" />
                             Expira: {formatDate(new Date(aviso.expires_at))}
                           </span>
-                        )}
-                        {aviso.author && (
-                          <span>Por: {aviso.author.full_name}</span>
                         )}
                       </div>
                     </div>
