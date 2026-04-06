@@ -4,7 +4,7 @@ import { Badge } from '@/components/ui/badge';
 import { Card, CardContent, CardHeader } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { Newspaper, Search, ArrowRight, Calendar } from 'lucide-react';
+import { Newspaper, Search, ArrowRight, Calendar, Mail, Bell } from 'lucide-react';
 import Link from 'next/link';
 import Image from 'next/image';
 
@@ -53,15 +53,15 @@ export default async function NewsPage({ searchParams }: { searchParams: Promise
   return (
     <div className="container mx-auto px-4 py-12">
       {/* Header */}
-      <div className="mb-8">
-        <h1 className="text-4xl font-bold mb-4">Notícias</h1>
+      <div className="mb-10">
+        <h1 className="text-4xl font-bold mb-3">Notícias</h1>
         <p className="text-muted-foreground text-lg">
-          Fique a par de todas as novidades e acontecimentos da nossa escola
+          Fique a par de todas as novidades e acontecimentos da Escola Secundária José Falcão
         </p>
       </div>
 
       {/* Filters */}
-      <Card className="mb-8">
+      <Card className="mb-8 bg-gradient-to-br from-secondary to-background border-border/50">
         <CardContent className="p-6">
           <form className="flex flex-col md:flex-row gap-4">
             <div className="flex-1">
@@ -78,49 +78,80 @@ export default async function NewsPage({ searchParams }: { searchParams: Promise
             <select
               name="category"
               defaultValue={category}
-              className="px-3 py-2 border rounded-md bg-background"
+              className="px-4 py-2 border rounded-lg bg-background focus:ring-2 focus:ring-brand-500 focus:border-brand-500 outline-none"
             >
               <option value="">Todas as categorias</option>
               {categories?.map((cat) => (
                 <option key={cat.id} value={cat.id}>{cat.name}</option>
               ))}
             </select>
-            <Button type="submit">Pesquisar</Button>
+            <Button type="submit" className="bg-brand-600 hover:bg-brand-700">
+              <Search className="h-4 w-4 mr-2" />
+              Pesquisar
+            </Button>
           </form>
         </CardContent>
       </Card>
 
+      {/* Category Pills */}
+      {categories && categories.length > 0 && (
+        <div className="flex flex-wrap gap-2 mb-8">
+          <Link href="/noticias">
+            <Badge 
+              variant={!category ? 'default' : 'secondary'} 
+              className="cursor-pointer hover:opacity-80 transition-opacity px-4 py-1.5"
+            >
+              Todas
+            </Badge>
+          </Link>
+          {categories.map((cat) => (
+            <Link key={cat.id} href={`/noticias?category=${cat.id}`}>
+              <Badge 
+                variant={category === cat.id ? 'default' : 'secondary'}
+                className="cursor-pointer hover:opacity-80 transition-opacity px-4 py-1.5"
+              >
+                {cat.name}
+              </Badge>
+            </Link>
+          ))}
+        </div>
+      )}
+
       {/* News Grid */}
       {news && news.length > 0 ? (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
-          {news.map((item) => (
+          {news.map((item, i) => (
             <Link href={`/noticias/${item.slug}`} key={item.id} className="group">
-              <Card className="overflow-hidden hover:shadow-lg transition-shadow h-full">
+              <Card className="overflow-hidden hover:shadow-xl transition-all duration-300 hover:-translate-y-1 h-full border-border/50">
                 {item.featured_image_url && (
                   <div className="relative h-48 overflow-hidden bg-muted">
                     <Image
                       src={item.featured_image_url}
                       alt={item.title}
                       fill
-                      className="object-cover group-hover:scale-105 transition-transform duration-300"
+                      className="object-cover group-hover:scale-110 transition-transform duration-500"
                     />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent"></div>
                   </div>
                 )}
-                <CardHeader className="p-4 pb-2">
-                  <div className="flex items-center gap-2 mb-2">
+                <CardHeader className="p-5 pb-3">
+                  <div className="flex items-center gap-2 mb-3">
                     {item.category && (
-                      <Badge style={{ backgroundColor: item.category.color }}>
+                      <Badge 
+                        className="text-white"
+                        style={{ backgroundColor: item.category.color }}
+                      >
                         {item.category.name}
                       </Badge>
                     )}
                   </div>
-                  <h3 className="text-xl font-semibold line-clamp-2 group-hover:text-primary transition-colors">
+                  <h3 className="text-xl font-semibold line-clamp-2 group-hover:text-brand-600 dark:group-hover:text-brand-400 transition-colors">
                     {item.title}
                   </h3>
                 </CardHeader>
-                <CardContent className="p-4 pt-0">
+                <CardContent className="p-5 pt-0">
                   {item.excerpt && (
-                    <p className="text-muted-foreground text-sm line-clamp-3 mb-3">
+                    <p className="text-muted-foreground text-sm line-clamp-3 mb-4">
                       {item.excerpt}
                     </p>
                   )}
@@ -139,13 +170,50 @@ export default async function NewsPage({ searchParams }: { searchParams: Promise
           ))}
         </div>
       ) : (
-        <Card className="mb-8">
+        /* Friendly Empty State */
+        <Card className="mb-8 border-dashed">
           <CardContent className="p-12 text-center">
-            <Newspaper className="h-12 w-12 mx-auto mb-4 text-muted-foreground" />
-            <h3 className="text-xl font-semibold mb-2">Nenhuma notícia encontrada</h3>
-            <p className="text-muted-foreground">
-              {search ? 'Tente uma pesquisa diferente' : 'Aguarde as próximas novidades'}
-            </p>
+            <div className="max-w-md mx-auto">
+              <div className="h-20 w-20 rounded-2xl bg-brand-100 dark:bg-brand-900/30 flex items-center justify-center mx-auto mb-6">
+                <Newspaper className="h-10 w-10 text-brand-600 dark:text-brand-400" />
+              </div>
+              <h3 className="text-2xl font-semibold mb-3">
+                {search ? 'Nenhum resultado encontrado' : 'Ainda não há notícias'}
+              </h3>
+              <p className="text-muted-foreground mb-6">
+                {search 
+                  ? `Não encontrámos notícias para "${search}". Tente uma pesquisa diferente.`
+                  : 'As novidades da Escola Secundária José Falcão aparecerão aqui. Volte brevemente!'
+                }
+              </p>
+              
+              {search && (
+                <Link href="/noticias">
+                  <Button variant="outline" className="mb-4">
+                    Limpar pesquisa
+                  </Button>
+                </Link>
+              )}
+              
+              {/* Newsletter Suggestion */}
+              <div className="mt-8 p-6 bg-gradient-to-br from-brand-50 to-blue-50 dark:from-brand-900/20 dark:to-blue-900/20 rounded-xl border border-brand-200 dark:border-brand-800">
+                <Bell className="h-8 w-8 text-brand-600 dark:text-brand-400 mx-auto mb-3" />
+                <h4 className="font-semibold mb-2">Não perca as próximas novidades</h4>
+                <p className="text-sm text-muted-foreground mb-4">
+                  Subscreva o nosso boletim informativo para receber as notícias por email
+                </p>
+                <div className="flex gap-2 max-w-sm mx-auto">
+                  <Input 
+                    type="email" 
+                    placeholder="O seu email" 
+                    className="flex-1"
+                  />
+                  <Button className="bg-brand-600 hover:bg-brand-700">
+                    <Mail className="h-4 w-4" />
+                  </Button>
+                </div>
+              </div>
+            </div>
           </CardContent>
         </Card>
       )}
@@ -158,8 +226,8 @@ export default async function NewsPage({ searchParams }: { searchParams: Promise
               <Button variant="outline">Anterior</Button>
             </Link>
           )}
-          
-          <span className="px-4 py-2">
+
+          <span className="px-4 py-2 text-sm">
             Página {currentPage} de {totalPages}
           </span>
 

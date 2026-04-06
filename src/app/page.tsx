@@ -1,9 +1,12 @@
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
-import { Calendar, BookOpen, Clock, Users, ArrowRight, GraduationCap, Trophy, Newspaper } from 'lucide-react';
+import { Calendar, BookOpen, Clock, Users, ArrowRight, GraduationCap, Trophy, Newspaper, MapPin, Phone, Mail } from 'lucide-react';
 import { createServerClient } from '@/lib/supabase/server';
 import { formatDate } from '@/lib/utils';
 import Image from 'next/image';
+import { BentoGrid, BentoGridItem } from '@/components/ui/bento-grid';
+import { WeekCalendar } from '@/components/home/week-calendar';
+import { AnimatedSection } from '@/components/ui/animated-section';
 
 export default async function Home() {
   const supabase = await createServerClient();
@@ -35,40 +38,86 @@ export default async function Home() {
     .eq('status', 'published')
     .gte('start_date', new Date().toISOString())
     .order('start_date', { ascending: true })
-    .limit(4);
+    .limit(8);
 
   return (
     <div>
-      {/* Hero Carousel / Highlights */}
-      <section className="relative bg-gradient-to-br from-brand-600 to-brand-800 text-white">
-        <div className="container mx-auto px-4 py-20 md:py-32">
-          <div className="max-w-3xl">
-            <h1 className="text-4xl md:text-6xl font-bold mb-6">
-              Escola Secundária José Falcão
+      {/* Hero Section - Immersive with Gradient Background */}
+      <section className="relative min-h-[85vh] flex items-center overflow-hidden bg-gradient-to-br from-brand-900 via-brand-800 to-brand-700">
+        {/* Animated Background Pattern */}
+        <div className="absolute inset-0">
+          <div className="absolute inset-0 opacity-20">
+            <div className="absolute top-20 left-10 w-72 h-72 bg-brand-400 rounded-full mix-blend-multiply filter blur-xl animate-pulse"></div>
+            <div className="absolute top-40 right-20 w-96 h-96 bg-purple-400 rounded-full mix-blend-multiply filter blur-xl animate-pulse" style={{ animationDelay: '2s' }}></div>
+            <div className="absolute bottom-20 left-1/3 w-80 h-80 bg-blue-300 rounded-full mix-blend-multiply filter blur-xl animate-pulse" style={{ animationDelay: '4s' }}></div>
+          </div>
+          {/* Grid Pattern Overlay */}
+          <div className="absolute inset-0 opacity-10" style={{
+            backgroundImage: 'linear-gradient(rgba(255,255,255,.1) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,.1) 1px, transparent 1px)',
+            backgroundSize: '60px 60px'
+          }}></div>
+        </div>
+
+        {/* Content */}
+        <div className="container mx-auto px-4 relative z-10">
+          <div className="max-w-4xl">
+            {/* Badge */}
+            <div className="inline-flex items-center gap-2 bg-white/10 backdrop-blur-sm border border-white/20 rounded-full px-4 py-2 mb-8">
+              <MapPin className="h-4 w-4 text-brand-200" />
+              <span className="text-sm text-white/90 font-medium">Coimbra · Monumento de Interesse Público</span>
+            </div>
+
+            <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold mb-6 text-white leading-tight">
+              Escola Secundária
+              <span className="block text-brand-200">José Falcão</span>
             </h1>
-            <p className="text-xl md:text-2xl mb-8 text-white/90">
-              Um dos primeiros Liceus de Portugal. Monumento de interesse público.
-              <br />
-              <span className="text-lg">Educação para a cidadania, para os valores e para a paz.</span>
+            
+            <p className="text-lg sm:text-xl md:text-2xl mb-4 text-white/90 font-light">
+              Um dos primeiros Liceus de Portugal. Fundada em 1936.
             </p>
+            <p className="text-base sm:text-lg mb-8 text-white/70 max-w-2xl">
+              Educação para a cidadania, para os valores e para a paz. 
+              Atualmente em reabilitação profunda com investimento de 23,8 milhões de euros.
+            </p>
+
             <div className="flex flex-wrap gap-4">
               <Link href="/a-escola">
-                <Button size="lg" className="bg-white text-brand-700 hover:bg-white/90">
+                <Button size="lg" className="bg-white text-brand-800 hover:bg-white/90 shadow-lg hover:shadow-xl transition-all">
                   Conhecer a Escola
                   <ArrowRight className="ml-2 h-4 w-4" />
                 </Button>
               </Link>
               <Link href="/contactos">
-                <Button size="lg" variant="outline" className="border-white text-white hover:bg-white/10">
+                <Button size="lg" variant="outline" className="border-2 border-white/30 text-white hover:bg-white/10 backdrop-blur-sm">
+                  <Phone className="mr-2 h-4 w-4" />
                   Contactar
                 </Button>
               </Link>
             </div>
+
+            {/* Stats */}
+            <div className="grid grid-cols-3 gap-6 mt-12 pt-8 border-t border-white/10">
+              <div>
+                <div className="text-3xl sm:text-4xl font-bold text-white">1936</div>
+                <div className="text-sm text-white/60 mt-1">Ano de Fundação</div>
+              </div>
+              <div>
+                <div className="text-3xl sm:text-4xl font-bold text-white">88+</div>
+                <div className="text-sm text-white/60 mt-1">Anos de História</div>
+              </div>
+              <div>
+                <div className="text-3xl sm:text-4xl font-bold text-white">23.8M€</div>
+                <div className="text-sm text-white/60 mt-1">Investimento</div>
+              </div>
+            </div>
           </div>
         </div>
-        {/* Decorative pattern */}
-        <div className="absolute inset-0 opacity-10">
-          <div className="absolute inset-0" style={{ backgroundImage: 'radial-gradient(circle, white 1px, transparent 1px)', backgroundSize: '30px 30px' }}></div>
+
+        {/* Scroll Indicator */}
+        <div className="absolute bottom-8 left-1/2 -translate-x-1/2 animate-bounce">
+          <div className="w-6 h-10 border-2 border-white/30 rounded-full flex items-start justify-center p-2">
+            <div className="w-1 h-2 bg-white/60 rounded-full"></div>
+          </div>
         </div>
       </section>
 
@@ -76,204 +125,273 @@ export default async function Home() {
       <section className="py-12 bg-secondary">
         <div className="container mx-auto px-4">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-            <Link href="/plataformas" className="group">
-              <div className="bg-background rounded-lg p-6 text-center hover:shadow-lg transition-shadow">
-                <BookOpen className="h-8 w-8 mx-auto mb-3 text-primary" />
-                <h3 className="font-semibold text-sm">Plataformas</h3>
-              </div>
-            </Link>
-            <Link href="/eventos" className="group">
-              <div className="bg-background rounded-lg p-6 text-center hover:shadow-lg transition-shadow">
-                <Calendar className="h-8 w-8 mx-auto mb-3 text-primary" />
-                <h3 className="font-semibold text-sm">Calendário</h3>
-              </div>
-            </Link>
-            <Link href="/servicos/secretaria" className="group">
-              <div className="bg-background rounded-lg p-6 text-center hover:shadow-lg transition-shadow">
-                <Clock className="h-8 w-8 mx-auto mb-3 text-primary" />
-                <h3 className="font-semibold text-sm">Secretaria</h3>
-              </div>
-            </Link>
-            <Link href="/documentos" className="group">
-              <div className="bg-background rounded-lg p-6 text-center hover:shadow-lg transition-shadow">
-                <Users className="h-8 w-8 mx-auto mb-3 text-primary" />
-                <h3 className="font-semibold text-sm">Documentos</h3>
-              </div>
-            </Link>
+            {[
+              { icon: BookOpen, label: 'Plataformas', href: '/plataformas', color: 'text-blue-600' },
+              { icon: Calendar, label: 'Calendário', href: '/eventos', color: 'text-green-600' },
+              { icon: Clock, label: 'Secretaria', href: '/servicos/secretaria', color: 'text-amber-600' },
+              { icon: Users, label: 'Documentos', href: '/documentos', color: 'text-purple-600' },
+            ].map((item, i) => (
+              <Link key={i} href={item.href} className="group">
+                <div className="bg-background rounded-xl p-6 text-center hover:shadow-lg hover:-translate-y-1 transition-all duration-300 border border-border/50">
+                  <item.icon className={`h-8 w-8 mx-auto mb-3 ${item.color}`} />
+                  <h3 className="font-semibold text-sm">{item.label}</h3>
+                </div>
+              </Link>
+            ))}
           </div>
         </div>
       </section>
+
+      {/* Bento Grid - Highlights & Featured Content */}
+      {highlights && highlights.length > 0 && (
+        <section className="py-16">
+          <div className="container mx-auto px-4">
+            <AnimatedSection>
+              <div className="text-center mb-12">
+                <h2 className="text-3xl font-bold mb-3">Destaques</h2>
+                <p className="text-muted-foreground text-lg max-w-2xl mx-auto">
+                  Informação importante e novidades da nossa escola
+                </p>
+              </div>
+            </AnimatedSection>
+            
+            <BentoGrid>
+              {highlights.slice(0, 5).map((highlight, i) => (
+                <BentoGridItem
+                  key={highlight.id}
+                  title={highlight.title}
+                  description={highlight.description || ''}
+                  href={highlight.link_url || '#'}
+                  className={i === 0 ? 'md:col-span-2 md:row-span-2' : ''}
+                  icon={highlight.icon_url ? undefined : Newspaper}
+                  image={highlight.image_url}
+                />
+              ))}
+            </BentoGrid>
+          </div>
+        </section>
+      )}
 
       {/* Latest News */}
-      <section className="py-16">
+      <section className="py-16 bg-gradient-to-b from-background to-secondary/30">
         <div className="container mx-auto px-4">
-          <div className="flex items-center justify-between mb-8">
-            <div>
-              <h2 className="text-3xl font-bold">Últimas Notícias</h2>
-              <p className="text-muted-foreground mt-2">Fique a par de tudo o que acontece na nossa escola</p>
-            </div>
-            <Link href="/noticias" className="hidden md:flex">
-              <Button variant="outline">
-                Ver todas
-                <ArrowRight className="ml-2 h-4 w-4" />
-              </Button>
-            </Link>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {latestNews?.map((news) => (
-              <Link href={`/noticias/${news.slug}`} key={news.id} className="group">
-                <article className="bg-background rounded-lg border overflow-hidden hover:shadow-lg transition-shadow h-full">
-                  {news.featured_image_url && (
-                    <div className="relative h-48 overflow-hidden bg-muted">
-                      <Image
-                        src={news.featured_image_url}
-                        alt={news.title}
-                        fill
-                        className="object-cover group-hover:scale-105 transition-transform duration-300"
-                      />
-                    </div>
-                  )}
-                  <div className="p-6">
-                    {news.category && (
-                      <span 
-                        className="inline-block px-2 py-1 text-xs font-semibold rounded-full text-white mb-3"
-                        style={{ backgroundColor: news.category.color }}
-                      >
-                        {news.category.name}
-                      </span>
-                    )}
-                    <h3 className="text-xl font-semibold mb-2 line-clamp-2 group-hover:text-primary transition-colors">
-                      {news.title}
-                    </h3>
-                    {news.excerpt && (
-                      <p className="text-muted-foreground text-sm line-clamp-3 mb-3">
-                        {news.excerpt}
-                      </p>
-                    )}
-                    <div className="flex items-center text-sm text-muted-foreground">
-                      <Newspaper className="h-4 w-4 mr-1" />
-                      {news.published_at ? formatDate(new Date(news.published_at)) : 'Recente'}
-                    </div>
-                  </div>
-                </article>
-              </Link>
-            ))}
-          </div>
-
-          <div className="mt-8 text-center md:hidden">
-            <Link href="/noticias">
-              <Button variant="outline">
-                Ver todas as notícias
-                <ArrowRight className="ml-2 h-4 w-4" />
-              </Button>
-            </Link>
-          </div>
-        </div>
-      </section>
-
-      {/* Upcoming Events */}
-      <section className="py-16 bg-secondary">
-        <div className="container mx-auto px-4">
-          <div className="flex items-center justify-between mb-8">
-            <div>
-              <h2 className="text-3xl font-bold">Próximos Eventos</h2>
-              <p className="text-muted-foreground mt-2">Não perca os eventos da nossa escola</p>
-            </div>
-            <Link href="/eventos" className="hidden md:flex">
-              <Button variant="outline">
-                Ver calendário
-                <ArrowRight className="ml-2 h-4 w-4" />
-              </Button>
-            </Link>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-            {upcomingEvents?.map((event) => (
-              <Link href={`/eventos/${event.slug}`} key={event.id} className="group">
-                <div className="bg-background rounded-lg p-6 border hover:shadow-lg transition-shadow">
-                  <div className="flex items-start gap-4">
-                    <div className="bg-primary/10 rounded-lg p-3 text-center min-w-[60px]">
-                      <div className="text-2xl font-bold text-primary">
-                        {new Date(event.start_date).getDate()}
-                      </div>
-                      <div className="text-xs text-muted-foreground uppercase">
-                        {new Date(event.start_date).toLocaleDateString('pt-PT', { month: 'short' })}
-                      </div>
-                    </div>
-                    <div>
-                      <h3 className="font-semibold mb-1 group-hover:text-primary transition-colors line-clamp-2">
-                        {event.title}
-                      </h3>
-                      {event.location && (
-                        <p className="text-sm text-muted-foreground">
-                          {event.location}
-                        </p>
-                      )}
-                    </div>
-                  </div>
-                </div>
-              </Link>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* About School */}
-      <section className="py-16">
-        <div className="container mx-auto px-4">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-            <div>
-              <h2 className="text-3xl font-bold mb-6">Sobre a Nossa Escola</h2>
-              <p className="text-muted-foreground mb-4">
-                Fundada em 1936 como Liceu D. João III, a Escola Secundária José Falcão é um dos primeiros três Liceus criados em Portugal e está classificada como monumento de interesse público.
-              </p>
-              <p className="text-muted-foreground mb-6">
-                Atualmente, a escola encontra-se num ambicioso projeto de reabilitação profunda, orçado em 23,8 milhões de euros, que a transformará num espaço moderno e acolhedor para as gerações futuras.
-              </p>
-              <div className="grid grid-cols-3 gap-6 mb-8">
-                <div className="text-center">
-                  <div className="text-3xl font-bold text-primary">1936</div>
-                  <div className="text-sm text-muted-foreground">Ano de Fundação</div>
-                </div>
-                <div className="text-center">
-                  <div className="text-3xl font-bold text-primary">88+</div>
-                  <div className="text-sm text-muted-foreground">Anos de História</div>
-                </div>
-                <div className="text-center">
-                  <div className="text-3xl font-bold text-primary">23.8M€</div>
-                  <div className="text-sm text-muted-foreground">Investimento</div>
-                </div>
+          <AnimatedSection>
+            <div className="flex items-center justify-between mb-10">
+              <div>
+                <h2 className="text-3xl font-bold mb-2">Últimas Notícias</h2>
+                <p className="text-muted-foreground text-lg">
+                  Fique a par de tudo o que acontece na nossa escola
+                </p>
               </div>
-              <Link href="/a-escola">
-                <Button>
-                  Saber mais
-                  <ArrowRight className="ml-2 h-4 w-4" />
+              <Link href="/noticias" className="hidden md:flex">
+                <Button variant="outline" className="gap-2">
+                  Ver todas
+                  <ArrowRight className="h-4 w-4" />
                 </Button>
               </Link>
             </div>
-            <div className="relative h-[400px] rounded-lg overflow-hidden bg-gradient-to-br from-brand-100 to-brand-200 flex items-center justify-center">
-              <GraduationCap className="h-32 w-32 text-brand-500/30" />
-              <div className="absolute inset-0 bg-gradient-to-t from-brand-900/20 to-transparent"></div>
+          </AnimatedSection>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {latestNews?.map((news, i) => (
+              <AnimatedSection key={news.id} delay={i * 0.1}>
+                <Link href={`/noticias/${news.slug}`} className="group block">
+                  <article className="bg-background rounded-xl border overflow-hidden hover:shadow-xl hover:-translate-y-1 transition-all duration-300 h-full">
+                    {news.featured_image_url && (
+                      <div className="relative h-48 overflow-hidden bg-muted">
+                        <Image
+                          src={news.featured_image_url}
+                          alt={news.title}
+                          fill
+                          className="object-cover group-hover:scale-110 transition-transform duration-500"
+                        />
+                        <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent"></div>
+                      </div>
+                    )}
+                    <div className="p-6">
+                      {news.category && (
+                        <span
+                          className="inline-block px-3 py-1 text-xs font-semibold rounded-full text-white mb-3"
+                          style={{ backgroundColor: news.category.color }}
+                        >
+                          {news.category.name}
+                        </span>
+                      )}
+                      <h3 className="text-xl font-semibold mb-2 line-clamp-2 group-hover:text-brand-600 dark:group-hover:text-brand-400 transition-colors">
+                        {news.title}
+                      </h3>
+                      {news.excerpt && (
+                        <p className="text-muted-foreground text-sm line-clamp-3 mb-4">
+                          {news.excerpt}
+                        </p>
+                      )}
+                      <div className="flex items-center text-sm text-muted-foreground">
+                        <Calendar className="h-4 w-4 mr-1" />
+                        {news.published_at ? formatDate(new Date(news.published_at)) : 'Recente'}
+                      </div>
+                    </div>
+                  </article>
+                </Link>
+              </AnimatedSection>
+            ))}
+          </div>
+
+          <div className="mt-10 text-center md:hidden">
+            <Link href="/noticias">
+              <Button variant="outline" className="gap-2">
+                Ver todas as notícias
+                <ArrowRight className="h-4 w-4" />
+              </Button>
+            </Link>
+          </div>
+        </div>
+      </section>
+
+      {/* Events Calendar Preview */}
+      <section className="py-16">
+        <div className="container mx-auto px-4">
+          <AnimatedSection>
+            <div className="flex items-center justify-between mb-10">
+              <div>
+                <h2 className="text-3xl font-bold mb-2">Próximos Eventos</h2>
+                <p className="text-muted-foreground text-lg">
+                  Não perca os eventos da nossa escola
+                </p>
+              </div>
+              <Link href="/eventos" className="hidden md:flex">
+                <Button variant="outline" className="gap-2">
+                  Ver calendário completo
+                  <ArrowRight className="h-4 w-4" />
+                </Button>
+              </Link>
             </div>
+          </AnimatedSection>
+
+          <WeekCalendar events={upcomingEvents || []} />
+        </div>
+      </section>
+
+      {/* About School - Modern Layout */}
+      <section className="py-20 bg-gradient-to-br from-brand-50 to-blue-50 dark:from-slate-900 dark:to-slate-800">
+        <div className="container mx-auto px-4">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center">
+            <AnimatedSection>
+              <div>
+                <div className="inline-flex items-center gap-2 bg-brand-100 dark:bg-brand-900/30 rounded-full px-4 py-2 mb-6">
+                  <GraduationCap className="h-4 w-4 text-brand-600 dark:text-brand-400" />
+                  <span className="text-sm font-medium text-brand-700 dark:text-brand-300">Desde 1936</span>
+                </div>
+                <h2 className="text-3xl lg:text-4xl font-bold mb-6">Sobre a Nossa Escola</h2>
+                <p className="text-muted-foreground mb-4 leading-relaxed">
+                  Fundada em 1936 como Liceu D. João III, a Escola Secundária José Falcão é um dos primeiros três Liceus criados em Portugal. 
+                  O edifício, classificado como <strong className="text-foreground">Monumento de Interesse Público</strong>, representa uma peça fundamental do património educativo português.
+                </p>
+                <p className="text-muted-foreground mb-6 leading-relaxed">
+                  Atualmente, a escola encontra-se num ambicioso projeto de reabilitação profunda, orçado em <strong className="text-foreground">23,8 milhões de euros</strong>, 
+                  que a transformará num espaço moderno e acolhedor para as gerações futuras, mantendo a sua riqueza histórica e cultural.
+                </p>
+                
+                {/* Key Stats */}
+                <div className="grid grid-cols-3 gap-6 mb-8 p-6 bg-background rounded-xl border">
+                  <div className="text-center">
+                    <div className="text-3xl font-bold text-brand-600 dark:text-brand-400">1936</div>
+                    <div className="text-sm text-muted-foreground mt-1">Fundação</div>
+                  </div>
+                  <div className="text-center">
+                    <div className="text-3xl font-bold text-brand-600 dark:text-brand-400">88+</div>
+                    <div className="text-sm text-muted-foreground mt-1">Anos</div>
+                  </div>
+                  <div className="text-center">
+                    <div className="text-3xl font-bold text-brand-600 dark:text-brand-400">23.8M€</div>
+                    <div className="text-sm text-muted-foreground mt-1">Investimento</div>
+                  </div>
+                </div>
+                
+                <Link href="/a-escola">
+                  <Button className="gap-2 bg-brand-600 hover:bg-brand-700">
+                    Saber mais sobre a escola
+                    <ArrowRight className="h-4 w-4" />
+                  </Button>
+                </Link>
+              </div>
+            </AnimatedSection>
+
+            <AnimatedSection delay={0.2}>
+              <div className="relative">
+                {/* Image Placeholder with gradient overlay */}
+                <div className="relative h-[400px] lg:h-[500px] rounded-2xl overflow-hidden shadow-2xl bg-gradient-to-br from-brand-200 to-brand-100 dark:from-slate-700 dark:to-slate-600 flex items-center justify-center">
+                  <GraduationCap className="h-24 w-24 text-brand-500/30 dark:text-brand-400/30" />
+                  <div className="absolute inset-0 bg-gradient-to-t from-brand-900/30 to-transparent"></div>
+                  <div className="absolute bottom-6 left-6 right-6">
+                    <div className="bg-white/90 dark:bg-slate-800/90 backdrop-blur-sm rounded-lg p-4">
+                      <p className="text-sm font-medium">Edifício classificado como Monumento de Interesse Público</p>
+                    </div>
+                  </div>
+                </div>
+                {/* Decorative element */}
+                <div className="absolute -bottom-4 -right-4 w-24 h-24 bg-brand-600/10 rounded-2xl -z-10"></div>
+                <div className="absolute -top-4 -left-4 w-32 h-32 bg-brand-600/5 rounded-2xl -z-10"></div>
+              </div>
+            </AnimatedSection>
           </div>
         </div>
       </section>
 
       {/* CTA - Platforms */}
-      <section className="py-16 bg-brand-600 text-white">
-        <div className="container mx-auto px-4 text-center">
-          <Trophy className="h-12 w-12 mx-auto mb-4" />
-          <h2 className="text-3xl font-bold mb-4">Plataformas Digitais</h2>
-          <p className="text-xl text-white/90 mb-8 max-w-2xl mx-auto">
-            Aceda às plataformas digitais da escola: Inovar, Moodle, SIGA, Google Workspace e muito mais.
-          </p>
-          <Link href="/plataformas">
-            <Button size="lg" className="bg-white text-brand-700 hover:bg-white/90">
-              Aceder às Plataformas
-              <ArrowRight className="ml-2 h-4 w-4" />
-            </Button>
-          </Link>
+      <section className="py-20 bg-gradient-to-br from-brand-600 to-brand-800 text-white relative overflow-hidden">
+        <div className="absolute inset-0 opacity-10">
+          <div className="absolute top-0 right-0 w-96 h-96 bg-white rounded-full filter blur-3xl"></div>
+          <div className="absolute bottom-0 left-0 w-80 h-80 bg-white rounded-full filter blur-3xl"></div>
+        </div>
+        <div className="container mx-auto px-4 text-center relative z-10">
+          <AnimatedSection>
+            <Trophy className="h-14 w-14 mx-auto mb-6" />
+            <h2 className="text-3xl lg:text-4xl font-bold mb-4">Plataformas Digitais</h2>
+            <p className="text-xl text-white/90 mb-8 max-w-2xl mx-auto">
+              Aceda às plataformas digitais da escola: Inovar, Moodle, SIGA, Google Workspace e muito mais.
+            </p>
+            <Link href="/plataformas">
+              <Button size="lg" className="bg-white text-brand-700 hover:bg-white/90 shadow-lg gap-2">
+                Aceder às Plataformas
+                <ArrowRight className="h-4 w-4" />
+              </Button>
+            </Link>
+          </AnimatedSection>
+        </div>
+      </section>
+
+      {/* Contact Info Strip */}
+      <section className="py-12 bg-secondary">
+        <div className="container mx-auto px-4">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <a href="tel:+351239487170" className="flex items-center gap-4 p-6 bg-background rounded-xl border hover:shadow-md transition-shadow">
+              <div className="h-12 w-12 rounded-lg bg-brand-100 dark:bg-brand-900/30 flex items-center justify-center">
+                <Phone className="h-6 w-6 text-brand-600 dark:text-brand-400" />
+              </div>
+              <div>
+                <h4 className="font-semibold text-sm">Telefone</h4>
+                <p className="text-muted-foreground text-sm">239 487 170 / 171 / 172</p>
+              </div>
+            </a>
+            <a href="mailto:geral@esjf.pt" className="flex items-center gap-4 p-6 bg-background rounded-xl border hover:shadow-md transition-shadow">
+              <div className="h-12 w-12 rounded-lg bg-brand-100 dark:bg-brand-900/30 flex items-center justify-center">
+                <Mail className="h-6 w-6 text-brand-600 dark:text-brand-400" />
+              </div>
+              <div>
+                <h4 className="font-semibold text-sm">Email</h4>
+                <p className="text-muted-foreground text-sm">geral@esjf.pt</p>
+              </div>
+            </a>
+            <a href="/contactos" className="flex items-center gap-4 p-6 bg-background rounded-xl border hover:shadow-md transition-shadow">
+              <div className="h-12 w-12 rounded-lg bg-brand-100 dark:bg-brand-900/30 flex items-center justify-center">
+                <MapPin className="h-6 w-6 text-brand-600 dark:text-brand-400" />
+              </div>
+              <div>
+                <h4 className="font-semibold text-sm">Morada</h4>
+                <p className="text-muted-foreground text-sm">Av. Dom Afonso Henriques, Coimbra</p>
+              </div>
+            </a>
+          </div>
         </div>
       </section>
     </div>

@@ -5,7 +5,7 @@
   --color-foreground: var(--foreground);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
-  
+
   /* ESJF Brand Colors */
   --color-brand-50: #eff6ff;
   --color-brand-100: #dbeafe;
@@ -17,6 +17,13 @@
   --color-brand-700: #1e3467;
   --color-brand-800: #172554;
   --color-brand-900: #0f172a;
+}
+
+/* Smooth transitions for dark mode toggle */
+*, *::before, *::after {
+  transition-property: background-color, border-color, color, fill, stroke;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  transition-duration: 200ms;
 }
 
 :root {
@@ -53,9 +60,9 @@
   --primary-foreground: #0f172a;
   --secondary: #1e293b;
   --secondary-foreground: #f8fafc;
-  --muted: #1e293b;
+  --muted: #334155;
   --muted-foreground: #94a3b8;
-  --accent: #1e293b;
+  --accent: #334155;
   --accent-foreground: #f8fafc;
   --destructive: #7f1d1d;
   --destructive-foreground: #f8fafc;
