@@ -107,24 +107,24 @@ export default async function DocumentsPage({ searchParams }: { searchParams: Pr
                     {/* Actions */}
                     <div className="flex gap-2 shrink-0">
                       {doc.file_url && (
-                        <a 
-                          href={doc.file_url} 
-                          target="_blank" 
+                        <a
+                          href={doc.file_url}
+                          target="_blank"
                           rel="noopener noreferrer"
                         >
-                          <Button variant="outline" size="sm" className="gap-2">
+                          <Button variant="outline" size="sm" className="gap-2 text-foreground">
                             <Eye className="h-4 w-4" />
                             Ver
                           </Button>
                         </a>
                       )}
-                      <a 
-                        href={doc.file_url} 
+                      <a
+                        href={doc.file_url}
                         download={doc.file_name}
                         target="_blank"
                         rel="noopener noreferrer"
                       >
-                        <Button className="bg-brand-600 hover:bg-brand-700 gap-2">
+                        <Button className="bg-brand-600 hover:bg-brand-700 gap-2 text-white">
                           <Download className="h-4 w-4" />
                           Descarregar
                         </Button>

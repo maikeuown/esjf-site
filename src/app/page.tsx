@@ -25,17 +25,27 @@ export default async function Home() {
     .order('order_index', { ascending: true })
     .limit(5);
 
-  // Fetch recent avisos
-  const { data: avisos } = await supabase
-    .from('avisos')
-    .select(`
-      *,
-      author:profiles(full_name)
-    `)
-    .eq('status', 'published')
-    .order('is_pinned', { ascending: false })
-    .order('published_at', { ascending: false })
-    .limit(3);
+  // Fetch recent avisos (with error handling if table doesn't exist yet)
+  let avisos: any[] = [];
+  try {
+    const result = await supabase
+      .from('avisos')
+      .select(`
+        *,
+        author:profiles(full_name)
+      `)
+      .eq('status', 'published')
+      .order('is_pinned', { ascending: false })
+      .order('published_at', { ascending: false })
+      .limit(3);
+    
+    if (!result.error) {
+      avisos = result.data || [];
+    }
+  } catch (error) {
+    // Table might not exist yet, silently ignore
+    console.log('Avisos table not found, skipping...');
+  }
 
   // Fetch latest news
   const { data: latestNews } = await supabase
