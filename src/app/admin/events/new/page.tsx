@@ -6,7 +6,6 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { RichTextEditor, ContentPreview } from '@/components/admin/rich-text-editor';
 import { createBrowserClient } from '@/lib/supabase/client';
 import { slugify } from '@/lib/utils';
@@ -23,6 +22,7 @@ export default function NewEventPage() {
   const [location, setLocation] = useState('');
   const [externalLink, setExternalLink] = useState('');
   const [content, setContent] = useState('');
+  const [editorTab, setEditorTab] = useState<'edit' | 'preview'>('edit');
   const supabase = createBrowserClient();
 
   const handleSave = async (e: React.FormEvent) => {
@@ -71,23 +71,18 @@ export default function NewEventPage() {
             <CardHeader className="pb-3">
               <div className="flex items-center justify-between">
                 <CardTitle>Descrição do Evento</CardTitle>
-                <Tabs defaultValue="edit" className="w-auto">
-                  <TabsList className="grid grid-cols-2 w-[200px]">
-                    <TabsTrigger value="edit" className="gap-1"><Pencil className="h-3 w-3" /> Editar</TabsTrigger>
-                    <TabsTrigger value="preview" className="gap-1"><Eye className="h-3 w-3" /> Pré-visualizar</TabsTrigger>
-                  </TabsList>
-                </Tabs>
+                <div className="flex items-center gap-1">
+                  <Button type="button" variant={editorTab === 'edit' ? 'default' : 'outline'} size="sm" onClick={() => setEditorTab('edit')} className="gap-1 h-8"><Pencil className="h-3 w-3" /> Editar</Button>
+                  <Button type="button" variant={editorTab === 'preview' ? 'default' : 'outline'} size="sm" onClick={() => setEditorTab('preview')} className="gap-1 h-8"><Eye className="h-3 w-3" /> Pré-visualizar</Button>
+                </div>
               </div>
             </CardHeader>
             <CardContent>
-              <Tabs defaultValue="edit">
-                <TabsContent value="edit">
-                  <RichTextEditor content={content} onChange={setContent} placeholder="Descreva o evento..." minHeight="300px" />
-                </TabsContent>
-                <TabsContent value="preview">
-                  <ContentPreview content={content} />
-                </TabsContent>
-              </Tabs>
+              {editorTab === 'edit' ? (
+                <RichTextEditor content={content} onChange={setContent} placeholder="Descreva o evento..." minHeight="300px" />
+              ) : (
+                <ContentPreview content={content} />
+              )}
             </CardContent>
           </Card>
         </div>

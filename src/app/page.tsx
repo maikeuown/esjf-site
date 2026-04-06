@@ -69,83 +69,72 @@ export default async function Home() {
         </div>
       </section>
 
-      {/* Avisos Section */}
+      {/* Avisos Importantes Section - Horizontal Block View */}
       {activeAvisos.length > 0 && (
         <section className="py-16">
           <div className="container mx-auto px-4">
             <AnimatedSection>
-              <div className="flex items-center justify-between mb-10">
-                <div>
-                  <div className="inline-flex items-center gap-2 bg-amber-100 dark:bg-amber-900/30 rounded-full px-4 py-2 mb-3">
-                    <Megaphone className="h-4 w-4 text-amber-600 dark:text-amber-400" />
-                    <span className="text-sm font-medium text-amber-700 dark:text-amber-300">Comunicados</span>
-                  </div>
-                  <h2 className="text-3xl font-bold mb-2">Avisos Importantes</h2>
-                  <p className="text-muted-foreground text-lg max-w-2xl">
-                    Comunicados e avisos importantes da Escola Secundária José Falcão
-                  </p>
+              <div className="text-center mb-10">
+                <div className="inline-flex items-center gap-2 bg-amber-100 dark:bg-amber-900/30 rounded-full px-4 py-2 mb-3">
+                  <Megaphone className="h-4 w-4 text-amber-600 dark:text-amber-400" />
+                  <span className="text-sm font-medium text-amber-700 dark:text-amber-300">Comunicados</span>
                 </div>
-                <Link href="/avisos">
-                  <Button variant="outline" className="gap-2">
-                    Ver todos
-                    <ArrowRight className="h-4 w-4" />
-                  </Button>
-                </Link>
+                <h2 className="text-3xl font-bold mb-2">Avisos Importantes</h2>
+                <p className="text-muted-foreground text-lg max-w-2xl mx-auto">
+                  Comunicados e avisos importantes da Escola Secundária José Falcão
+                </p>
               </div>
             </AnimatedSection>
 
-            <div className="space-y-4">
+            <div className="space-y-4 max-w-4xl mx-auto">
               {activeAvisos.map((aviso, i) => {
                 const priority = priorityConfig[aviso.priority as keyof typeof priorityConfig] || priorityConfig.normal;
 
                 return (
                   <AnimatedSection key={aviso.id} delay={i * 0.1}>
                     <Link href={`/avisos/${aviso.slug}`} className="group block">
-                      <div className="card border-border/50 rounded-2xl overflow-hidden cursor-pointer">
+                      <div className="card border-border/50 rounded-2xl overflow-hidden cursor-pointer card-glow-lift-pulse">
                         <div className="p-6">
-                          <div className="flex items-start gap-4">
+                          <div className="flex items-center gap-4">
                             {/* Icon */}
-                            <div className={`icon-glow icon-glow-${aviso.is_pinned ? 'amber' : 'brand'} h-12 w-12 rounded-xl ${
+                            <div className={`icon-glow icon-glow-${aviso.is_pinned ? 'amber' : 'brand'} h-10 w-10 rounded-xl ${
                               aviso.is_pinned
                                 ? 'bg-amber-100 dark:bg-amber-900/30'
                                 : 'bg-brand-100 dark:bg-brand-900/30'
                             } flex items-center justify-center shrink-0 transition-all duration-400`}>
                               {aviso.is_pinned ? (
-                                <Pin className="h-6 w-6 text-amber-600 dark:text-amber-400" />
+                                <Pin className="h-5 w-5 text-amber-600 dark:text-amber-400" />
                               ) : (
-                                <Bell className="h-6 w-6 text-brand-600 dark:text-brand-400" />
+                                <Bell className="h-5 w-5 text-brand-600 dark:text-brand-400" />
                               )}
                             </div>
 
-                            {/* Content */}
-                            <div className="flex-1 min-w-0">
-                              <div className="flex flex-wrap items-center gap-2 mb-2">
-                                <span className={`px-3 py-1 text-xs font-semibold rounded-full ${priority.className}`}>
-                                  {priority.label}
-                                </span>
-                                {aviso.is_pinned && (
-                                  <span className="px-3 py-1 text-xs font-semibold rounded-full bg-amber-100 text-amber-800 dark:bg-amber-900 dark:text-amber-200 flex items-center gap-1">
-                                    <Pin className="h-3 w-3" />
-                                    Fixado
+                            {/* Content - horizontal layout */}
+                            <div className="flex-1 min-w-0 flex items-center justify-between gap-4">
+                              <div className="min-w-0 flex-1">
+                                <div className="flex flex-wrap items-center gap-2 mb-1">
+                                  <span className={`px-3 py-1 text-xs font-semibold rounded-full ${priority.className}`}>
+                                    {priority.label}
                                   </span>
-                                )}
+                                  {aviso.is_pinned && (
+                                    <span className="px-3 py-1 text-xs font-semibold rounded-full bg-amber-100 text-amber-800 dark:bg-amber-900 dark:text-amber-200 flex items-center gap-1">
+                                      <Pin className="h-3 w-3" />
+                                      Fixado
+                                    </span>
+                                  )}
+                                </div>
+                                <h3 className="text-lg font-semibold text-glow group-hover:text-brand-600 dark:group-hover:text-brand-400 transition-colors truncate">
+                                  {aviso.title}
+                                </h3>
                               </div>
-                              <h3 className="text-xl font-semibold mb-2 text-glow group-hover:text-brand-600 dark:group-hover:text-brand-400 transition-colors">
-                                {aviso.title}
-                              </h3>
-                              {aviso.excerpt && (
-                                <p className="text-muted-foreground text-sm line-clamp-2 mb-3 text-glow">
-                                  {aviso.excerpt}
-                                </p>
-                              )}
-                              <div className="flex items-center text-sm text-muted-foreground">
-                                <Calendar className="h-4 w-4 mr-1" />
-                                {aviso.published_at ? formatDate(new Date(aviso.published_at)) : 'Recente'}
+                              <div className="flex items-center gap-4 shrink-0">
+                                <div className="flex items-center text-sm text-muted-foreground">
+                                  <Calendar className="h-4 w-4 mr-1 shrink-0" />
+                                  {aviso.published_at ? formatDate(new Date(aviso.published_at)) : 'Recente'}
+                                </div>
+                                <ArrowRight className="h-5 w-5 text-muted-foreground group-hover:text-brand-600 dark:group-hover:text-brand-400 group-hover:translate-x-1 transition-all shrink-0" />
                               </div>
                             </div>
-
-                            {/* Arrow */}
-                            <ArrowRight className="h-5 w-5 text-muted-foreground group-hover:text-brand-600 dark:group-hover:text-brand-400 group-hover:translate-x-1 transition-all" />
                           </div>
                         </div>
                       </div>

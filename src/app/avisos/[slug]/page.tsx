@@ -50,13 +50,10 @@ export default async function AvisoDetailPage({ params }: AvisoPageProps) {
 
   const { data: aviso } = await supabase
     .from('avisos')
-    .select(`
-      *,
-      author:profiles(full_name, avatar_url)
-    `)
+    .select('*')
     .eq('slug', slug)
     .eq('status', 'published')
-    .single();
+    .maybeSingle();
 
   if (!aviso) {
     notFound();

@@ -8,7 +8,6 @@ import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { RichTextEditor, ContentPreview } from '@/components/admin/rich-text-editor';
 import { createBrowserClient } from '@/lib/supabase/client';
 import { slugify } from '@/lib/utils';
@@ -23,6 +22,7 @@ export default function NewAvisoPage() {
   const [isPinned, setIsPinned] = useState(false);
   const [status, setStatus] = useState<'draft' | 'published'>('draft');
   const [content, setContent] = useState('');
+  const [editorTab, setEditorTab] = useState<'edit' | 'preview'>('edit');
   const supabase = createBrowserClient();
 
   const handleSave = async (e: React.FormEvent) => {
@@ -48,7 +48,7 @@ export default function NewAvisoPage() {
     setLoading(false);
   };
 
-  const priorityColors = { urgent: 'text-red-600', normal: 'text-blue-600', low: 'text-gray-600' };
+  const priorityColors: Record<string, string> = { urgent: 'text-red-600', normal: 'text-blue-600', low: 'text-gray-600' };
 
   return (
     <div>
@@ -72,23 +72,18 @@ export default function NewAvisoPage() {
             <CardHeader className="pb-3">
               <div className="flex items-center justify-between">
                 <CardTitle>Conteúdo</CardTitle>
-                <Tabs defaultValue="edit" className="w-auto">
-                  <TabsList className="grid grid-cols-2 w-[200px]">
-                    <TabsTrigger value="edit" className="gap-1"><Pencil className="h-3 w-3" /> Editar</TabsTrigger>
-                    <TabsTrigger value="preview" className="gap-1"><Eye className="h-3 w-3" /> Pré-visualizar</TabsTrigger>
-                  </TabsList>
-                </Tabs>
+                <div className="flex items-center gap-1">
+                  <Button type="button" variant={editorTab === 'edit' ? 'default' : 'outline'} size="sm" onClick={() => setEditorTab('edit')} className="gap-1 h-8"><Pencil className="h-3 w-3" /> Editar</Button>
+                  <Button type="button" variant={editorTab === 'preview' ? 'default' : 'outline'} size="sm" onClick={() => setEditorTab('preview')} className="gap-1 h-8"><Eye className="h-3 w-3" /> Pré-visualizar</Button>
+                </div>
               </div>
             </CardHeader>
             <CardContent>
-              <Tabs defaultValue="edit">
-                <TabsContent value="edit">
-                  <RichTextEditor content={content} onChange={setContent} placeholder="Escreva o conteúdo do aviso..." minHeight="300px" />
-                </TabsContent>
-                <TabsContent value="preview">
-                  <ContentPreview content={content} />
-                </TabsContent>
-              </Tabs>
+              {editorTab === 'edit' ? (
+                <RichTextEditor content={content} onChange={setContent} placeholder="Escreva o conteúdo do aviso..." minHeight="300px" />
+              ) : (
+                <ContentPreview content={content} />
+              )}
             </CardContent>
           </Card>
         </div>

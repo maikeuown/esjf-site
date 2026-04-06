@@ -39,38 +39,41 @@ function ColumnHeader({ title, icon: Icon, href }: { title: string; icon: React.
 
   return (
     <div
-      className="flex items-center mb-6 relative overflow-hidden"
+      className="relative mb-6"
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >
-      {/* Centered title */}
-      <motion.div
-        className="flex-1 flex items-center justify-center gap-2"
-        animate={isHovered ? { x: -60, justifyContent: 'flex-start' } : { x: 0, justifyContent: 'center' }}
-        transition={{ type: 'spring', stiffness: 300, damping: 25 }}
-      >
-        <Icon className="h-6 w-6 text-brand-600 dark:text-brand-400" />
-        <h2 className="text-2xl font-bold">{title}</h2>
-      </motion.div>
+      {/* Centered content container with overflow hidden for clean animation */}
+      <div className="flex items-center justify-center overflow-visible">
+        {/* Title - centered, slides left on hover */}
+        <motion.div
+          className="flex items-center gap-2"
+          animate={isHovered ? { x: -40 } : { x: 0 }}
+          transition={{ type: 'spring', stiffness: 300, damping: 25 }}
+        >
+          <Icon className="h-6 w-6 text-brand-600 dark:text-brand-400 shrink-0" />
+          <h2 className="text-2xl font-bold whitespace-nowrap">{title}</h2>
+        </motion.div>
 
-      {/* Ver todos button - appears on hover */}
-      <AnimatePresence>
-        {isHovered && (
-          <motion.div
-            initial={{ opacity: 0, x: 20 }}
-            animate={{ opacity: 1, x: 0 }}
-            exit={{ opacity: 0, x: 20 }}
-            transition={{ duration: 0.2 }}
-            className="absolute right-0"
-          >
-            <Link href={href}>
-              <span className="inline-flex items-center gap-1 text-sm font-medium text-brand-600 dark:text-brand-400 hover:underline cursor-pointer">
-                Ver todos <ArrowRight className="h-3 w-3" />
-              </span>
-            </Link>
-          </motion.div>
-        )}
-      </AnimatePresence>
+        {/* Ver todos - positioned to the right, fades in */}
+        <AnimatePresence>
+          {isHovered && (
+            <motion.div
+              initial={{ opacity: 0, x: 10 }}
+              animate={{ opacity: 1, x: 0 }}
+              exit={{ opacity: 0, x: 10 }}
+              transition={{ duration: 0.15 }}
+              className="absolute right-0"
+            >
+              <Link href={href}>
+                <span className="inline-flex items-center gap-1 text-sm font-medium text-brand-600 dark:text-brand-400 hover:underline cursor-pointer whitespace-nowrap">
+                  Ver todos <ArrowRight className="h-3 w-3" />
+                </span>
+              </Link>
+            </motion.div>
+          )}
+        </AnimatePresence>
+      </div>
     </div>
   );
 }
@@ -79,17 +82,17 @@ export function NovidadesSection() {
   return (
     <section className="py-16 bg-gradient-to-b from-secondary/30 to-background">
       <div className="container mx-auto px-4">
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
           {/* Avisos Column */}
           <div>
             <ColumnHeader title="Avisos" icon={Megaphone} href="/avisos" />
-            <div className="space-y-3">
+            <div className="space-y-4">
               {avisosData.map((aviso) => {
                 const priority = priorityConfig[aviso.priority] || priorityConfig.normal;
                 return (
                   <Link key={aviso.id} href={`/avisos/${aviso.slug}`}>
                     <Card className="card-glow-lift-pulse border-border/50 cursor-pointer">
-                      <CardContent className="p-4">
+                      <CardContent className="p-5">
                         <Badge className={`${priority.className} mb-2`}>{priority.label}</Badge>
                         <h3 className="font-semibold mb-1 line-clamp-2 text-glow hover:text-brand-600 transition-colors">{aviso.title}</h3>
                         {aviso.excerpt && <p className="text-xs text-muted-foreground mb-1 line-clamp-1 text-glow">{aviso.excerpt}</p>}
@@ -105,11 +108,11 @@ export function NovidadesSection() {
           {/* Notícias Column */}
           <div>
             <ColumnHeader title="Notícias" icon={Newspaper} href="/noticias" />
-            <div className="space-y-3">
+            <div className="space-y-4">
               {newsData.map((item) => (
                 <Link key={item.id} href={`/noticias/${item.slug}`}>
                   <Card className="card-glow-lift-pulse border-border/50 cursor-pointer">
-                    <CardContent className="p-4">
+                    <CardContent className="p-5">
                       <Badge className="mb-2 text-white" style={{ backgroundColor: item.color }}>{item.category}</Badge>
                       <h3 className="font-semibold mb-1 line-clamp-2 text-glow hover:text-brand-600 transition-colors">{item.title}</h3>
                       {item.excerpt && <p className="text-xs text-muted-foreground mb-1 line-clamp-1 text-glow">{item.excerpt}</p>}
@@ -124,13 +127,13 @@ export function NovidadesSection() {
           {/* Eventos Column */}
           <div>
             <ColumnHeader title="Eventos" icon={Calendar} href="/eventos" />
-            <div className="space-y-3">
+            <div className="space-y-4">
               {eventsData.map((event) => (
                 <Link key={event.id} href={`/eventos/${event.slug}`}>
                   <Card className="card-glow-lift-pulse border-border/50 cursor-pointer">
-                    <CardContent className="p-4">
+                    <CardContent className="p-5">
                       <div className="flex items-start gap-3">
-                        <div className="bg-brand-100 dark:bg-brand-900/30 rounded-lg p-2 text-center min-w-[50px]">
+                        <div className="bg-brand-100 dark:bg-brand-900/30 rounded-lg p-2 text-center min-w-[50px] shrink-0">
                           <div className="text-lg font-bold text-brand-600 dark:text-brand-400">{new Date(event.date).getDate()}</div>
                           <div className="text-[10px] text-muted-foreground uppercase">{new Date(event.date).toLocaleDateString('pt-PT', { month: 'short' })}</div>
                         </div>

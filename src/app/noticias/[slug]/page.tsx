@@ -45,17 +45,16 @@ export const dynamic = 'force-dynamic';
 export default async function NewsDetailPage({ params }: NewsPageProps) {
   const supabase = await createServerClient();
   const { slug } = await params;
-  
+
   const { data: news } = await supabase
     .from('news')
     .select(`
       *,
-      category:news_categories(name, slug, color),
-      author:profiles(full_name, avatar_url)
+      category:news_categories(name, slug, color)
     `)
     .eq('slug', slug)
     .eq('status', 'published')
-    .single();
+    .maybeSingle();
 
   if (!news) {
     notFound();
