@@ -177,6 +177,80 @@ body {
   );
 }
 
+/* Button visibility fixes - Better contrast for all button variants */
+.btn-contrast {
+  background: linear-gradient(135deg, rgba(219, 234, 254, 0.5) 0%, rgba(255, 255, 255, 0) 100%);
+  border: 1px solid rgba(219, 234, 254, 0.8);
+  color: #1e40af;
+  font-weight: 600;
+  transition: all 0.3s ease;
+}
+
+.btn-contrast:hover {
+  background: linear-gradient(135deg, rgba(219, 234, 254, 0.8) 0%, rgba(191, 219, 254, 0.4) 100%);
+  border-color: #93c5fd;
+  color: #1e3a8a;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(30, 64, 175, 0.15);
+}
+
+.dark .btn-contrast {
+  background: linear-gradient(135deg, rgba(30, 58, 138, 0.4) 0%, rgba(15, 23, 42, 0) 100%);
+  border-color: rgba(96, 165, 250, 0.3);
+  color: #93c5fd;
+}
+
+.dark .btn-contrast:hover {
+  background: linear-gradient(135deg, rgba(30, 58, 138, 0.6) 0%, rgba(30, 52, 103, 0.3) 100%);
+  border-color: #60a5fa;
+  color: #bfdbfe;
+}
+
+/* Blue gradient backgrounds for white space areas */
+.bg-blue-gradient {
+  background: linear-gradient(135deg, 
+    rgba(219, 234, 254, 0.6) 0%, 
+    rgba(219, 234, 254, 0.3) 30%, 
+    rgba(255, 255, 255, 0) 70%
+  );
+}
+
+.dark .bg-blue-gradient {
+  background: linear-gradient(135deg, 
+    rgba(30, 58, 138, 0.3) 0%, 
+    rgba(30, 58, 138, 0.15) 30%, 
+    rgba(15, 23, 42, 0) 70%
+  );
+}
+
+/* Enhanced outline buttons with better visibility */
+.btn-outline-enhanced {
+  border: 2px solid rgba(30, 64, 175, 0.3);
+  background: rgba(255, 255, 255, 0.8);
+  color: #1e40af;
+  font-weight: 500;
+  transition: all 0.3s ease;
+}
+
+.btn-outline-enhanced:hover {
+  border-color: #1e40af;
+  background: rgba(219, 234, 254, 0.5);
+  color: #1e3a8a;
+  box-shadow: 0 2px 8px rgba(30, 64, 175, 0.1);
+}
+
+.dark .btn-outline-enhanced {
+  border-color: rgba(96, 165, 250, 0.3);
+  background: rgba(30, 41, 59, 0.8);
+  color: #93c5fd;
+}
+
+.dark .btn-outline-enhanced:hover {
+  border-color: #60a5fa;
+  background: rgba(30, 58, 138, 0.4);
+  color: #bfdbfe;
+}
+
 /* Tiptap Editor Styles */
 .tiptap {
   > * + * {

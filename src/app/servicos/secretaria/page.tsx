@@ -12,20 +12,24 @@ export default function SecretariaPage() {
         </p>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
-          <Card>
+          <Card className="border-border/50 card-shimmer-static">
             <CardContent className="p-6">
-              <Clock className="h-8 w-8 text-primary mb-4" />
+              <div className="h-12 w-12 rounded-xl bg-gradient-to-br from-blue-500 to-blue-600 flex items-center justify-center mb-4 shadow-lg">
+                <Clock className="h-6 w-6 text-white" />
+              </div>
               <h2 className="text-xl font-bold mb-3">Horário de Atendimento</h2>
               <div className="space-y-2 text-muted-foreground">
-                <p><strong className="text-foreground">Segunda a Sexta:</strong> 9h00 - 17h00</p>
+                <p><strong className="text-foreground">Segunda a Sexta:</strong> 08:30 - 17:00</p>
                 <p><strong className="text-foreground">Feriados:</strong> Encerrado</p>
               </div>
             </CardContent>
           </Card>
 
-          <Card>
+          <Card className="border-border/50 card-shimmer-static">
             <CardContent className="p-6">
-              <Phone className="h-8 w-8 text-primary mb-4" />
+              <div className="h-12 w-12 rounded-xl bg-gradient-to-br from-emerald-500 to-emerald-600 flex items-center justify-center mb-4 shadow-lg">
+                <Phone className="h-6 w-6 text-white" />
+              </div>
               <h2 className="text-xl font-bold mb-3">Contactos</h2>
               <div className="space-y-2 text-muted-foreground">
                 <p><strong className="text-foreground">Telefone:</strong> 239 487 170 / 171 / 172</p>
@@ -35,9 +39,11 @@ export default function SecretariaPage() {
           </Card>
         </div>
 
-        <Card className="mb-8">
+        <Card className="mb-8 border-border/50 card-shimmer-static">
           <CardContent className="p-6">
-            <FileText className="h-8 w-8 text-primary mb-4" />
+            <div className="h-12 w-12 rounded-xl bg-gradient-to-br from-purple-500 to-purple-600 flex items-center justify-center mb-4 shadow-lg">
+              <FileText className="h-6 w-6 text-white" />
+            </div>
             <h2 className="text-xl font-bold mb-4">Serviços Disponíveis</h2>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               {[
