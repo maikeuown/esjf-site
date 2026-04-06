@@ -116,24 +116,24 @@ export default function ContactsPage() {
           >
             {card.href ? (
               <a href={card.href} className="block group">
-                <Card className="h-full hover:shadow-lg transition-all duration-300 hover:-translate-y-1 border-border/50">
+                <Card className="h-full card-glow-lift-pulse border-border/50">
                   <CardContent className="p-6">
-                    <div className={`h-12 w-12 rounded-xl bg-gradient-to-br ${card.color} flex items-center justify-center mb-4 shadow-lg group-hover:scale-110 transition-transform`}>
+                    <div className={`icon-glow icon-glow-${card.color.includes('blue') ? 'blue' : card.color.includes('emerald') ? 'emerald' : card.color.includes('amber') ? 'amber' : 'purple'} h-12 w-12 rounded-xl bg-gradient-to-br ${card.color} flex items-center justify-center mb-4 shadow-lg`}>
                       <card.icon className="h-6 w-6 text-white" />
                     </div>
-                    <h3 className="font-semibold mb-2">{card.title}</h3>
-                    <p className="text-sm text-muted-foreground line-clamp-2">{card.content}</p>
+                    <h3 className="font-semibold mb-2 text-glow">{card.title}</h3>
+                    <p className="text-sm text-muted-foreground line-clamp-2 text-glow">{card.content}</p>
                   </CardContent>
                 </Card>
               </a>
             ) : (
-              <Card className="h-full">
+              <Card className="h-full card-glow-lift-pulse border-border/50">
                 <CardContent className="p-6">
-                  <div className={`h-12 w-12 rounded-xl bg-gradient-to-br ${card.color} flex items-center justify-center mb-4 shadow-lg`}>
+                  <div className={`icon-glow icon-glow-${card.color.includes('purple') ? 'purple' : 'brand'} h-12 w-12 rounded-xl bg-gradient-to-br ${card.color} flex items-center justify-center mb-4 shadow-lg`}>
                     <card.icon className="h-6 w-6 text-white" />
                   </div>
-                  <h3 className="font-semibold mb-2">{card.title}</h3>
-                  <p className="text-sm text-muted-foreground">{card.content}</p>
+                  <h3 className="font-semibold mb-2 text-glow">{card.title}</h3>
+                  <p className="text-sm text-muted-foreground text-glow">{card.content}</p>
                 </CardContent>
               </Card>
             )}
@@ -301,13 +301,13 @@ export default function ContactsPage() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.6 + i * 0.1 }}
           >
-            <Card className="h-full border-border/50 card-shimmer-static">
+            <Card className="h-full border-border/50 card-glow-lift-pulse card-shimmer-static">
               <CardContent className="p-6">
-                <div className={`h-12 w-12 rounded-xl bg-gradient-to-br ${item.color} flex items-center justify-center mb-4 shadow-lg`}>
+                <div className={`icon-glow icon-glow-${item.color.includes('blue') ? 'blue' : item.color.includes('emerald') ? 'emerald' : 'pink'} h-12 w-12 rounded-xl bg-gradient-to-br ${item.color} flex items-center justify-center mb-4 shadow-lg`}>
                   <item.icon className="h-6 w-6 text-white" />
                 </div>
-                <h3 className="font-semibold mb-2">{item.title}</h3>
-                <p className="text-sm text-muted-foreground">{item.description}</p>
+                <h3 className="font-semibold mb-2 text-glow">{item.title}</h3>
+                <p className="text-sm text-muted-foreground text-glow">{item.description}</p>
               </CardContent>
             </Card>
           </motion.div>

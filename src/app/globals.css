@@ -251,6 +251,176 @@ body {
   color: #bfdbfe;
 }
 
+/* ============================================
+   Glow Lift Pulse - Elegant Card Hover Effect
+   Modern, subtle, premium feel (Apple/Notion)
+   Applied globally to all Card components
+   ============================================ */
+
+/* Apply to all cards by default */
+.card,
+.card-glow-lift-pulse {
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  position: relative;
+  overflow: hidden;
+}
+
+/* Background Pulse - subtle gradient overlay */
+.card::before,
+.card-glow-lift-pulse::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0) 0%,
+    rgba(219, 234, 254, 0) 100%
+  );
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  pointer-events: none;
+  z-index: 0;
+  border-radius: inherit;
+}
+
+/* Ensure card content is above the overlay */
+.card > *,
+.card > * > *,
+.card-glow-lift-pulse > *,
+.card-glow-lift-pulse > * > * {
+  position: relative;
+  z-index: 1;
+}
+
+/* Hover State - Lift & Shadow */
+.card:hover,
+.card-glow-lift-pulse:hover {
+  transform: translateY(-10px);
+  box-shadow: 
+    0 20px 40px -12px rgba(0, 0, 0, 0.1),
+    0 8px 16px -8px rgba(0, 0, 0, 0.05);
+}
+
+/* Background Pulse on Hover */
+.card:hover::before,
+.card-glow-lift-pulse:hover::before {
+  background: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.8) 0%,
+    rgba(219, 234, 254, 0.3) 100%
+  );
+}
+
+/* Icon Magic - scale + glow + rotation */
+.card .icon-glow,
+.card-glow-lift-pulse .icon-glow {
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.card:hover .icon-glow,
+.card-glow-lift-pulse:hover .icon-glow {
+  transform: scale(1.15) rotate(3deg);
+}
+
+/* Colored glow for different icon types */
+.card:hover .icon-glow-blue,
+.card-glow-lift-pulse:hover .icon-glow-blue {
+  filter: drop-shadow(0 0 8px rgba(59, 130, 246, 0.5));
+}
+
+.card:hover .icon-glow-emerald,
+.card-glow-lift-pulse:hover .icon-glow-emerald {
+  filter: drop-shadow(0 0 8px rgba(16, 185, 129, 0.5));
+}
+
+.card:hover .icon-glow-amber,
+.card-glow-lift-pulse:hover .icon-glow-amber {
+  filter: drop-shadow(0 0 8px rgba(245, 158, 11, 0.5));
+}
+
+.card:hover .icon-glow-purple,
+.card-glow-lift-pulse:hover .icon-glow-purple {
+  filter: drop-shadow(0 0 8px rgba(139, 92, 246, 0.5));
+}
+
+.card:hover .icon-glow-pink,
+.card-glow-lift-pulse:hover .icon-glow-pink {
+  filter: drop-shadow(0 0 8px rgba(236, 72, 153, 0.5));
+}
+
+.card:hover .icon-glow-red,
+.card-glow-lift-pulse:hover .icon-glow-red {
+  filter: drop-shadow(0 0 8px rgba(239, 68, 68, 0.5));
+}
+
+.card:hover .icon-glow-brand,
+.card-glow-lift-pulse:hover .icon-glow-brand {
+  filter: drop-shadow(0 0 8px rgba(30, 64, 175, 0.5));
+}
+
+/* Text Enhancement - moves up slightly with more intensity */
+.card .text-glow,
+.card-glow-lift-pulse .text-glow {
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.card:hover .text-glow,
+.card-glow-lift-pulse:hover .text-glow {
+  transform: translateY(-2px);
+  color: var(--foreground);
+}
+
+/* Dark mode adjustments */
+.dark .card:hover::before,
+.dark .card-glow-lift-pulse:hover::before {
+  background: linear-gradient(
+    135deg,
+    rgba(15, 23, 42, 0.9) 0%,
+    rgba(30, 58, 138, 0.2) 100%
+  );
+}
+
+.dark .card:hover,
+.dark .card-glow-lift-pulse:hover {
+  box-shadow: 
+    0 20px 40px -12px rgba(0, 0, 0, 0.3),
+    0 8px 16px -8px rgba(0, 0, 0, 0.2);
+}
+
+.dark .card:hover .icon-glow-blue,
+.dark .card-glow-lift-pulse:hover .icon-glow-blue {
+  filter: drop-shadow(0 0 10px rgba(96, 165, 250, 0.6));
+}
+
+.dark .card:hover .icon-glow-emerald,
+.dark .card-glow-lift-pulse:hover .icon-glow-emerald {
+  filter: drop-shadow(0 0 10px rgba(52, 211, 153, 0.6));
+}
+
+.dark .card:hover .icon-glow-amber,
+.dark .card-glow-lift-pulse:hover .icon-glow-amber {
+  filter: drop-shadow(0 0 10px rgba(251, 191, 36, 0.6));
+}
+
+.dark .card:hover .icon-glow-purple,
+.dark .card-glow-lift-pulse:hover .icon-glow-purple {
+  filter: drop-shadow(0 0 10px rgba(167, 139, 250, 0.6));
+}
+
+.dark .card:hover .icon-glow-pink,
+.dark .card-glow-lift-pulse:hover .icon-glow-pink {
+  filter: drop-shadow(0 0 10px rgba(244, 114, 182, 0.6));
+}
+
+.dark .card:hover .icon-glow-red,
+.dark .card-glow-lift-pulse:hover .icon-glow-red {
+  filter: drop-shadow(0 0 10px rgba(248, 113, 113, 0.6));
+}
+
+.dark .card:hover .icon-glow-brand,
+.dark .card-glow-lift-pulse:hover .icon-glow-brand {
+  filter: drop-shadow(0 0 10px rgba(96, 165, 250, 0.6));
+}
+
 /* Tiptap Editor Styles */
 .tiptap {
   > * + * {
