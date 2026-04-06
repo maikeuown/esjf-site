@@ -1,87 +1,81 @@
-# Relatório de Análise e Sugestões de Design para o Website da ESJF
+# Relatório de Modernização Web: Escola Secundária José Falcão (ESJF)
 
-**Autor:** Manus AI
+**Autor:** Manus AI  
 **Data:** 6 de abril de 2026
 
-## Resumo Executivo
+## 1. Análise de Design: O Estilo "Projetos e Serviços"
 
-Este relatório apresenta uma análise detalhada do website atual da Escola Secundária José Falcão (ESJF), identificando problemas de design, usabilidade e funcionalidade. Com base nas melhores práticas de design web para instituições de ensino e nas tendências atuais, são propostas sugestões de melhoria e um prompt estruturado para a ferramenta Qwen Code, visando a modernização e otimização do portal da escola.
+Após uma análise aprofundada, as páginas de **Projetos** e **Serviços** destacam-se como as mais bem estruturadas do site atual. Elas utilizam um layout de cartões (cards) com ícones coloridos e tipografia clara que deve servir de base para a reestruturação de todo o portal.
 
-## 1. Análise do Website Atual da ESJF
+### Pontos Fortes a Preservar:
+- **Hierarquia Visual:** Uso de ícones para identificação rápida de categorias.
+- **Limpeza:** Fundo branco com bordas suaves que facilitam a leitura.
+- **Chamadas de Ação (CTA):** Links "Saber mais" claros e bem posicionados.
 
-O website da ESJF, embora funcional, demonstra uma série de oportunidades para modernização e aprimoramento da experiência do utilizador. A análise focou-se em três áreas principais: identidade visual e estética, interface de utilizador (UI) e layout, e usabilidade e funcionalidade.
+---
 
-### 1.1. Identidade Visual e Estética
+## 2. Propostas de Design Inovadoras
 
-O design atual do website da ESJF padece de um **genericismo extremo**, utilizando um template que, embora limpo, carece de personalidade e diferenciação. O fundo azul escuro com um padrão de pontos na secção principal (hero section) é uma escolha estética comum que não reflete a rica história e o estatuto de "Monumento de Interesse Público" da instituição [1]. O logotipo da escola, posicionado no cabeçalho, é de tamanho reduzido e não é devidamente valorizado, perdendo a oportunidade de reforçar a marca da ESJF. A **ausência de fotografias autênticas** da escola, dos seus alunos e das instalações contribui para uma experiência impessoal, sendo substituídas por ícones genéricos que não transmitem a vivacidade e o ambiente escolar [2].
+### 2.1. Visualização de Eventos: O "Event Horizon" (Próximos 2 Meses)
+Em vez de uma lista linear ou um calendário tradicional, propomos uma visualização de **Linha do Tempo Circular ou Bento Dinâmico** para os eventos dos próximos 60 dias:
 
-### 1.2. Interface de Utilizador (UI) e Layout
+- **O Conceito:** Um componente de "Bento Grid" dinâmico na Home onde o tamanho do cartão indica a proximidade ou importância do evento.
+- **Interatividade:** Os eventos dos próximos 2 meses aparecem em cartões de tamanhos variados. Ao passar o rato (hover), o cartão expande para mostrar detalhes.
+- **Filtro de Tempo:** Um seletor deslizante (slider) que permite ao utilizador filtrar visualmente "Esta Semana", "Este Mês" e "Próximo Mês", reorganizando os cartões com animações suaves (Framer Motion).
 
-Foram identificados vários problemas na UI e no layout do website:
+### 2.2. Reestilização de Filtros e Pesquisa
+Atualmente, os filtros de Notícias e Eventos são básicos e "misturam-se" demasiado com o fundo. A proposta é uma **Barra de Ferramentas Flutuante (Glassmorphism)**:
 
-*   **Botões Quebrados ou Invisíveis:** Na página inicial, o botão "Contactar" na secção principal apresenta texto invisível ou com cor idêntica ao fundo, comprometendo a sua funcionalidade.
-*   **Espaçamento Inconsistente:** O espaçamento (padding e margin) entre as diferentes secções da página é irregular, resultando em áreas demasiado compactas e outras com excesso de espaço em branco, prejudicando a harmonia visual.
-*   **Cartões Simplistas:** Os elementos de cartão utilizados nas páginas de "Serviços" e "Projetos" são excessivamente básicos, sem profundidade visual (sombras suaves), micro-interações ou um design mais contemporâneo, como o *glassmorphism* ou *bento grid* [3].
-*   **Rodapé Horrível:** O rodapé do website é extremamente básico, com uma hierarquia de texto confusa e um design que não corresponde ao padrão moderno. Requer uma reconstrução completa para ser funcional e esteticamente agradável.
+- **Estética:** Uma barra com efeito de vidro fosco que se destaca do conteúdo.
+- **Filtros por Tags:** Em vez de dropdowns, usar "Pills" (etiquetas) clicáveis que mudam de cor quando ativas, semelhantes às usadas em apps modernas de produtividade.
+- **Pesquisa Preditiva:** Uma barra de pesquisa que sugere resultados instantaneamente enquanto o utilizador digita, com miniaturas de imagens.
 
-### 1.3. Usabilidade e Funcionalidade
+---
 
-No que concerne à usabilidade, destacam-se os seguintes pontos:
+## 3. Auditoria de Funcionalidade (Teste de Botões)
 
-*   **Navegação Redundante e Desatualizada:** Os menus suspensos ("A Escola" e "Oferta Educativa") levam a páginas que meramente replicam os links já presentes no próprio menu, criando uma experiência de navegação repetitiva e ineficiente. O menu principal carece de um design moderno, animações suaves e suporte a múltiplos níveis de dropdowns, o que é essencial para uma navegação intuitiva em sites escolares complexos.
-*   **"Empty States" na Página de Notícias:** A página de "Notícias" encontra-se vazia, exibindo a mensagem "Nenhuma notícia encontrada". Esta situação transmite uma imagem de desatualização ou abandono do website, o que é prejudicial para a perceção da escola.
-*   **Conteúdo Genérico:** Grande parte do conteúdo textual parece genérico, sem aprofundamento ou detalhes específicos que seriam de interesse para a comunidade escolar, como pais e alunos.
-*   **Gestão de Documentos Básica:** A secção de documentos é uma lista simples, sem funcionalidades de pré-visualização, categorização avançada ou pesquisa, o que dificulta a organização e acesso a informações importantes.
+| Secção | Estado | Observação |
+| :--- | :--- | :--- |
+| **Hero Section (Home)** | ⚠️ Crítico | Botão "Contactar" tem texto invisível. |
+| **Menu Dropdown** | 🔴 Ineficiente | Redundante; redireciona para páginas que apenas repetem o menu. |
+| **Filtros de Notícias** | 🟠 Pobre | Design datado; não oferece feedback visual claro de seleção. |
+| **Rodapé (Footer)** | 🔴 Horrível | Falta de estrutura; links amontoados sem hierarquia. |
 
-## 2. Sugestões de Melhoria e Modernização
+---
 
-Para transformar o website da ESJF num portal moderno, envolvente e funcional, propõem-se as seguintes melhorias, inspiradas nas tendências de design web para instituições de ensino [4]:
+## 4. Prompt Consolidado para Qwen Code
 
-### 2.1. Funcionalidades Chave
+```markdown
+Por favor, executa uma refatoração completa do website da ESJF focando na modernização estética e funcionalidade avançada:
 
-*   **Calendário de Eventos Interativo:** Implementar um componente de calendário na página inicial que exiba os eventos da semana corrente, com a opção de expandir para um calendário completo e interativo. Este calendário deve permitir filtros por tipo de evento e integração com calendários pessoais (e.g., Google Calendar, Outlook) [5].
-*   **Layout de Bento Grid para Destaques:** Reestruturar a secção de notícias e destaques na página inicial utilizando um layout de *Bento Grid*. Este design, popular em 2024/2025, oferece uma apresentação visualmente apelativa e organizada de múltiplos conteúdos [3].
-*   **Dark Mode Refinado:** O botão de *dark mode* existente deve ser aprimorado, garantindo uma transição suave e uma paleta de cores otimizada para legibilidade e estética no modo escuro.
-*   **Hero Section Imersiva:** Substituir o fundo genérico da secção principal por um vídeo de alta qualidade que mostre a vida escolar, as instalações renovadas, ou um *slider* de fotografias profissionais que transmitam a atmosfera da ESJF.
+### 1. Sistema de Navegação e Rodapé
+- **Menu:** Cria um menu "Mega Menu" moderno com animações suaves (Framer Motion). Deve suportar múltiplos níveis e incluir ícones representativos para cada secção.
+- **Footer:** Reconstrói o rodapé do zero. Usa um layout de 4 colunas: (1) Logo e Missão, (2) Links Rápidos, (3) Contactos Diretos com ícones, (4) Redes Sociais e Newsletter.
 
-### 2.2. Interatividade e Experiência do Utilizador
+### 2. Visualização de Eventos (Inovação)
+- Substitui a lista de eventos na Home por um **Bento Grid Dinâmico**.
+- Este grid deve mostrar eventos dos próximos 2 meses.
+- Implementa um "Time-Slider" que filtra os eventos por proximidade.
+- Usa animações de layout para que os cartões se reorganizem suavemente ao filtrar.
 
-*   **Filtros e Pesquisa Avançada:** Implementar filtros em tempo real e uma funcionalidade de pesquisa robusta para as secções de "Notícias" e "Documentos", permitindo aos utilizadores encontrar rapidamente a informação desejada sem recarregar a página.
-*   **Animações Subtis:** Adicionar animações de entrada (e.g., *fade-in*, *slide-up*) e micro-interações utilizando bibliotecas como Framer Motion, para tornar a navegação mais fluida e envolvente.
-*   **Conteúdo Autêntico:** Priorizar o uso de fotografias e vídeos reais da escola, dos alunos e das atividades, em detrimento de imagens de stock ou ícones genéricos. O conteúdo textual deve ser reescrito para ser mais específico, informativo e envolvente.
+### 3. Filtros de Notícias e Eventos
+- Redesenha a barra de pesquisa e filtros para um estilo **Glassmorphism**.
+- Substitui dropdowns por **Tags/Pills** interativas.
+- Adiciona feedback visual (ex: glow ou mudança de escala) quando um filtro está ativo.
 
-## 3. Prompt para Qwen Code
+### 4. Estilo Geral (Inspirado em 'Projetos' e 'Serviços')
+- Aplica a estética de cartões de 'Serviços' a todo o site, mas com toques modernos: sombras suaves (box-shadow: soft), cantos arredondados (border-radius: 1.5rem) e micro-interações de hover.
+- Corrige o botão "Contactar" na Hero Section (garante contraste de cor).
 
-Considerando as análises e sugestões apresentadas, o seguinte prompt é formulado para o Qwen Code, com o objetivo de guiar a reestruturação e modernização do website da ESJF:
-
-```
-Por favor, refatora e moderniza o website da Escola Secundária José Falcão (ESJF) com base nas seguintes diretrizes:
-
-**1. Design e Estética:**
-*   Substitui o fundo genérico da hero section por um vídeo de alta qualidade ou um slider de imagens que capturem a essência da vida escolar na ESJF e as suas instalações renovadas. O vídeo/slider deve ser responsivo e otimizado para performance.
-*   Redesenha o cabeçalho para dar maior destaque ao logotipo da ESJF, garantindo que a identidade visual da escola seja proeminente e alinhada com o seu estatuto de "Monumento de Interesse Público".
-*   Ajusta o espaçamento (padding e margin) entre todas as secções para garantir consistência e uma hierarquia visual clara.
-*   Atualiza o design dos cartões em todas as páginas (e.g., "Serviços", "Projetos") para incorporar elementos de design modernos como sombras suaves, cantos arredondados e, se possível, um estilo *glassmorphism* ou *bento grid* para os destaques na página inicial.
-*   **Reconstrução Completa do Rodapé:** O rodapé deve ser completamente redesenhado para ser moderno, funcional e informativo. Deve incluir links organizados por categorias (e.g., A Escola, Oferta Educativa, Serviços, Contactos), informações de contacto claras, mapa do site, política de privacidade, termos de utilização e ícones de redes sociais. A hierarquia visual deve ser clara e o design deve complementar o restante website.
-
-**2. Usabilidade e Funcionalidade:**
-*   **Menu de Navegação Moderno:** Implementa um menu de navegação principal moderno e responsivo, com animações suaves e suporte a múltiplos níveis de dropdowns. Ao clicar nos itens do menu principal como "A Escola" e "Oferta Educativa", o utilizador deve ser direcionado para uma página consolidada que apresente as subcategorias de forma clara e intuitiva, sem replicar os links do menu principal. As animações de abertura e fecho dos dropdowns devem ser fluidas e a experiência de navegação deve ser intuitiva em todos os dispositivos.
-*   **Página de Notícias:** Implementa um sistema de gestão de notícias robusto. Se não houver notícias, exibe uma mensagem amigável e sugere a subscrição de um boletim informativo. Adiciona filtros por categoria e uma barra de pesquisa para facilitar a localização de notícias.
-*   **Calendário de Eventos (Prioridade):** Na página inicial, cria um componente de calendário interativo que exiba apenas os eventos da próxima semana. Este componente deve ter um botão "Ver Calendário Completo" que direcione para uma página dedicada com um calendário interativo completo (utilizando uma biblioteca como FullCalendar ou similar), permitindo visualização mensal/semanal/diária, filtros por categoria e a possibilidade de adicionar eventos ao calendário pessoal do utilizador.
-*   **Secção de Documentos:** Implementa um sistema de gestão de documentos com categorias claras, funcionalidade de pesquisa e, se possível, pré-visualização de documentos. Os documentos devem ser facilmente filtráveis por tipo (Regulamentos, Circulares, Ementas, etc.).
-
-**3. Otimização e Performance:**
-*   Garante que o website seja totalmente responsivo e otimizado para dispositivos móveis.
-*   Otimiza o carregamento de imagens e vídeos para garantir alta performance.
-*   Assegura que o *dark mode* tenha uma transição suave e uma paleta de cores bem definida para ambos os modos.
-
-**Tecnologias Sugeridas:** React/Next.js para o frontend, Tailwind CSS para estilização, e uma biblioteca de componentes de UI moderna. Para o calendário, sugere-se a integração de uma biblioteca como FullCalendar. Para animações, considera Framer Motion.
+### 5. Tecnologias
+- Frontend: Next.js + Tailwind CSS.
+- Animações: Framer Motion.
+- Ícones: Lucide-React.
 ```
 
-## Referências
+---
 
-[1] Apptegy. (2024). *Best school website designs in 2024 and what to learn in 2025*. Disponível em: [https://www.apptegy.com/guides/best-school-website-designs-in-2024/](https://www.apptegy.com/guides/best-school-website-designs-in-2024/)
-[2] Modern Campus. (2025). *Higher Education Website Design Trends: 12 Strategies for ...*. Disponível em: [https://moderncampus.com/blog/website-design-trends-in-higher-education.html](https://moderncampus.com/blog/website-design-trends-in-higher-education.html)
-[3] Vistaprint. (2025). *7 Stunning Web Design Trends for 2024 and 2025*. Disponível em: [https://www.vistaprint.com/hub/web-design-trends-2025?srsltid=AfmBOophZA5BGVqxvRxmoVsNBcpt4v04EL8Y64w_fUS7jmxUeXarsrJ2](https://www.vistaprint.com/hub/web-design-trends-2025?srsltid=AfmBOophZA5BGVqxvRxmoVsNBcpt4v04EL8Y64w_fUS7jmxUeXarsrJ2)
-[4] The Drop Times. (2025). *Higher Ed Website Design Trends for 2025: Key Insights*. Disponível em: [https://www.thedroptimes.com/45893/higher-ed-website-design-trends-2025-key-insights](https://www.thedroptimes.com/45893/higher-ed-website-design-trends-2025-key-insights)
-[5] Eleken. (2026). *Calendar UI Examples: 33 Inspiring Designs [+ UX Tips]*. Disponível em: [https://www.eleken.co/blog-posts/calendar-ui](https://www.eleken.co/blog-posts/calendar-ui)
+## Referências e Benchmarking
+- **Design de Calendários Modernos:** [Eleken UI Trends](https://www.eleken.co/blog-posts/calendar-ui) [5]
+- **Bento Grid Patterns:** [Bento Grids Showcase](https://bentogrids.com/)
+- **Framer Motion Best Practices:** [Framer Motion Documentation](https://www.framer.com/motion/)

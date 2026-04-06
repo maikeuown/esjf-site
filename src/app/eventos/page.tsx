@@ -2,9 +2,10 @@ import { createServerClient } from '@/lib/supabase/server';
 import { formatDate } from '@/lib/utils';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { Calendar, MapPin, ArrowRight, Clock } from 'lucide-react';
+import { Calendar, MapPin, ArrowRight, Clock, Sparkles } from 'lucide-react';
 import Link from 'next/link';
 import { FullCalendar } from '@/components/events/full-calendar';
+import { EventsBentoGrid } from '@/components/events/events-bento-grid';
 
 export default async function EventsPage() {
   const supabase = await createServerClient();
@@ -39,16 +40,27 @@ export default async function EventsPage() {
   return (
     <div className="container mx-auto px-4 py-12">
       <div className="mb-10">
+        <div className="inline-flex items-center gap-2 bg-brand-100 dark:bg-brand-900/30 rounded-full px-4 py-2 mb-4">
+          <Sparkles className="h-4 w-4 text-brand-600 dark:text-brand-400" />
+          <span className="text-sm font-medium text-brand-700 dark:text-brand-300">Não perca nada</span>
+        </div>
         <h1 className="text-4xl font-bold mb-3">Eventos</h1>
         <p className="text-muted-foreground text-lg">
           Calendário de eventos e atividades da Escola Secundária José Falcão
         </p>
       </div>
 
-      {events && events.length > 0 && groupedEvents ? (
+      {events && events.length > 0 ? (
         <div className="space-y-12">
+          {/* Dynamic Bento Grid - Next 2 Months */}
+          <section>
+            <h2 className="text-2xl font-bold mb-6">Próximos Eventos</h2>
+            <EventsBentoGrid events={events} />
+          </section>
+
           {/* Interactive Calendar */}
           <section>
+            <h2 className="text-2xl font-bold mb-6">Calendário Completo</h2>
             <FullCalendar events={calendarEvents} />
           </section>
 

@@ -132,7 +132,7 @@ export default async function Home() {
               { icon: Users, label: 'Documentos', href: '/documentos', color: 'text-purple-600' },
             ].map((item, i) => (
               <Link key={i} href={item.href} className="group">
-                <div className="bg-background rounded-xl p-6 text-center hover:shadow-lg hover:-translate-y-1 transition-all duration-300 border border-border/50">
+                <div className="bg-background rounded-2xl p-6 text-center hover:shadow-xl hover:-translate-y-1 transition-all duration-300 border border-border/50">
                   <item.icon className={`h-8 w-8 mx-auto mb-3 ${item.color}`} />
                   <h3 className="font-semibold text-sm">{item.label}</h3>
                 </div>
@@ -196,7 +196,7 @@ export default async function Home() {
             {latestNews?.map((news, i) => (
               <AnimatedSection key={news.id} delay={i * 0.1}>
                 <Link href={`/noticias/${news.slug}`} className="group block">
-                  <article className="bg-background rounded-xl border overflow-hidden hover:shadow-xl hover:-translate-y-1 transition-all duration-300 h-full">
+                  <article className="bg-background rounded-2xl border overflow-hidden hover:shadow-xl hover:-translate-y-1 transition-all duration-300 h-full">
                     {news.featured_image_url && (
                       <div className="relative h-48 overflow-hidden bg-muted">
                         <Image
@@ -364,8 +364,8 @@ export default async function Home() {
       <section className="py-12 bg-secondary">
         <div className="container mx-auto px-4">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            <a href="tel:+351239487170" className="flex items-center gap-4 p-6 bg-background rounded-xl border hover:shadow-md transition-shadow">
-              <div className="h-12 w-12 rounded-lg bg-brand-100 dark:bg-brand-900/30 flex items-center justify-center">
+            <a href="tel:+351239487170" className="flex items-center gap-4 p-6 bg-background rounded-2xl border hover:shadow-lg transition-shadow">
+              <div className="h-12 w-12 rounded-xl bg-brand-100 dark:bg-brand-900/30 flex items-center justify-center">
                 <Phone className="h-6 w-6 text-brand-600 dark:text-brand-400" />
               </div>
               <div>
@@ -373,8 +373,8 @@ export default async function Home() {
                 <p className="text-muted-foreground text-sm">239 487 170 / 171 / 172</p>
               </div>
             </a>
-            <a href="mailto:geral@esjf.pt" className="flex items-center gap-4 p-6 bg-background rounded-xl border hover:shadow-md transition-shadow">
-              <div className="h-12 w-12 rounded-lg bg-brand-100 dark:bg-brand-900/30 flex items-center justify-center">
+            <a href="mailto:geral@esjf.pt" className="flex items-center gap-4 p-6 bg-background rounded-2xl border hover:shadow-lg transition-shadow">
+              <div className="h-12 w-12 rounded-xl bg-brand-100 dark:bg-brand-900/30 flex items-center justify-center">
                 <Mail className="h-6 w-6 text-brand-600 dark:text-brand-400" />
               </div>
               <div>
@@ -382,7 +382,7 @@ export default async function Home() {
                 <p className="text-muted-foreground text-sm">geral@esjf.pt</p>
               </div>
             </a>
-            <a href="/contactos" className="flex items-center gap-4 p-6 bg-background rounded-xl border hover:shadow-md transition-shadow">
+            <a href="/contactos" className="flex items-center gap-4 p-6 bg-background rounded-2xl border hover:shadow-lg transition-shadow">
               <div className="h-12 w-12 rounded-lg bg-brand-100 dark:bg-brand-900/30 flex items-center justify-center">
                 <MapPin className="h-6 w-6 text-brand-600 dark:text-brand-400" />
               </div>

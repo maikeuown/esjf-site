@@ -2,39 +2,99 @@
 
 import Link from 'next/link';
 import { useState, useEffect } from 'react';
-import { Menu, X, Search, Moon, Sun, ChevronDown } from 'lucide-react';
+import { Menu, X, Search, Moon, Sun, ChevronDown, Home, BookOpen, GraduationCap, Newspaper, Calendar, Trophy, Wrench, FileText, Phone, Clock, Users, Palette, Globe, Heart, Dumbbell, Music } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Button } from '@/components/ui/button';
 import { useAuth } from '@/hooks/use-auth';
 
 const navItems = [
-  { label: 'Início', href: '/' },
+  { 
+    label: 'Início', 
+    href: '/', 
+    icon: Home 
+  },
   {
     label: 'A Escola',
     href: '/a-escola',
+    icon: GraduationCap,
+    description: 'Conheça a nossa história e valores',
     submenu: [
-      { label: 'História', href: '/a-escola/historia' },
-      { label: 'Missão e Valores', href: '/a-escola/missao-valores' },
-      { label: 'Órgãos de Gestão', href: '/a-escola/orgaos-gestao' },
-      { label: 'Instalações', href: '/a-escola/instalacoes' },
+      { label: 'História', href: '/a-escola/historia', icon: Clock, description: 'Desde 1936' },
+      { label: 'Missão e Valores', href: '/a-escola/missao-valores', icon: Heart, description: 'O que nos move' },
+      { label: 'Órgãos de Gestão', href: '/a-escola/orgaos-gestao', icon: Users, description: 'A nossa equipa' },
+      { label: 'Instalações', href: '/a-escola/instalacoes', icon: Wrench, description: 'O nosso espaço' },
     ]
   },
   {
     label: 'Oferta Educativa',
     href: '/oferta-educativa',
+    icon: BookOpen,
+    description: 'Ensino Básico, Secundário e Profissional',
     submenu: [
-      { label: 'Ensino Básico', href: '/oferta-educativa/ensino-basico' },
-      { label: 'Ensino Secundário', href: '/oferta-educativa/ensino-secundario' },
-      { label: 'Cursos Profissionais', href: '/oferta-educativa/cursos-profissionais' },
+      { label: 'Ensino Básico', href: '/oferta-educativa/ensino-basico', icon: BookOpen, description: '5º ao 9º ano' },
+      { label: 'Ensino Secundário', href: '/oferta-educativa/ensino-secundario', icon: GraduationCap, description: '10º ao 12º ano' },
+      { label: 'Cursos Profissionais', href: '/oferta-educativa/cursos-profissionais', icon: Wrench, description: 'Formação técnica' },
     ]
   },
-  { label: 'Notícias', href: '/noticias' },
-  { label: 'Eventos', href: '/eventos' },
-  { label: 'Projetos', href: '/projetos' },
-  { label: 'Serviços', href: '/servicos' },
-  { label: 'Documentos', href: '/documentos' },
-  { label: 'Contactos', href: '/contactos' },
+  { 
+    label: 'Notícias', 
+    href: '/noticias', 
+    icon: Newspaper,
+    description: 'Últimas novidades'
+  },
+  { 
+    label: 'Eventos', 
+    href: '/eventos', 
+    icon: Calendar,
+    description: 'Calendário escolar'
+  },
+  { 
+    label: 'Projetos', 
+    href: '/projetos', 
+    icon: Trophy,
+    description: 'Atividades e projetos'
+  },
+  { 
+    label: 'Serviços', 
+    href: '/servicos', 
+    icon: Wrench,
+    description: 'Secretaria, Biblioteca, SPO'
+  },
+  { 
+    label: 'Documentos', 
+    href: '/documentos', 
+    icon: FileText,
+    description: 'Regulamentos e circulares'
+  },
+  { 
+    label: 'Contactos', 
+    href: '/contactos', 
+    icon: Phone,
+    description: 'Fale connosco'
+  },
 ];
+
+const dropdownVariants = {
+  hidden: { opacity: 0, y: -10, scale: 0.98 },
+  visible: { 
+    opacity: 1, 
+    y: 0, 
+    scale: 1,
+    transition: { 
+      duration: 0.25, 
+      ease: [0.16, 1, 0.3, 1] as const 
+    }
+  },
+  exit: { 
+    opacity: 0, 
+    y: -10, 
+    scale: 0.98,
+    transition: { 
+      duration: 0.2, 
+      ease: [0.32, 0, 0.67, 0] as const 
+    }
+  }
+};
 
 export function Header() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -70,7 +130,7 @@ export function Header() {
     <header
       className={`sticky top-0 z-50 w-full transition-all duration-300 ${
         scrolled
-          ? 'bg-background/95 shadow-md backdrop-blur-md supports-[backdrop-filter]:bg-background/60'
+          ? 'bg-background/95 shadow-lg backdrop-blur-md supports-[backdrop-filter]:bg-background/60'
           : 'bg-background/80 backdrop-blur supports-[backdrop-filter]:bg-background/60'
       }`}
     >
@@ -79,7 +139,8 @@ export function Header() {
           {/* Logo - More Prominent */}
           <Link href="/" className="flex items-center gap-4 group">
             <motion.div
-              whileHover={{ scale: 1.05 }}
+              whileHover={{ scale: 1.05, rotate: 5 }}
+              whileTap={{ scale: 0.95 }}
               className="relative h-12 w-12 overflow-hidden rounded-xl bg-gradient-to-br from-brand-500 to-brand-700 shadow-lg flex items-center justify-center"
             >
               <span className="text-white font-bold text-sm tracking-wider">ESJF</span>
@@ -94,7 +155,7 @@ export function Header() {
             </div>
           </Link>
 
-          {/* Desktop Navigation with Smooth Dropdowns */}
+          {/* Desktop Navigation with Mega Menu */}
           <nav className="hidden xl:flex items-center gap-1">
             {navItems.map((item) => (
               <div
@@ -105,8 +166,9 @@ export function Header() {
               >
                 <Link
                   href={item.href}
-                  className="flex items-center gap-1 px-3 py-2 text-sm font-medium text-foreground/80 hover:text-brand-600 dark:hover:text-brand-400 transition-colors rounded-md hover:bg-accent/50"
+                  className="flex items-center gap-1.5 px-3 py-2 text-sm font-medium text-foreground/80 hover:text-brand-600 dark:hover:text-brand-400 transition-colors rounded-md hover:bg-accent/50"
                 >
+                  <item.icon className="h-4 w-4" />
                   {item.label}
                   {item.submenu && (
                     <ChevronDown
@@ -117,26 +179,54 @@ export function Header() {
                   )}
                 </Link>
                 
-                {/* Animated Submenu */}
+                {/* Mega Menu Dropdown */}
                 <AnimatePresence>
                   {item.submenu && activeDropdown === item.label && (
                     <motion.div
-                      initial={{ opacity: 0, y: -8 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      exit={{ opacity: 0, y: -8 }}
-                      transition={{ duration: 0.2, ease: 'easeOut' }}
-                      className="absolute top-full left-0 pt-2"
+                      variants={dropdownVariants}
+                      initial="hidden"
+                      animate="visible"
+                      exit="exit"
+                      className="absolute top-full left-1/2 -translate-x-1/2 pt-3"
                     >
-                      <div className="w-56 rounded-xl border bg-background/95 backdrop-blur shadow-xl p-2 dark:bg-card/95">
-                        {item.submenu.map((sub) => (
-                          <Link
-                            key={sub.href}
-                            href={sub.href}
-                            className="block rounded-lg px-4 py-2.5 text-sm text-foreground/80 hover:text-foreground hover:bg-brand-50 dark:hover:bg-brand-900/20 transition-colors font-medium"
-                          >
-                            {sub.label}
-                          </Link>
-                        ))}
+                      <div className="w-[520px] rounded-2xl border bg-background/95 dark:bg-card/95 backdrop-blur-xl shadow-2xl p-4 overflow-hidden">
+                        {/* Header */}
+                        <div className="px-3 pb-3 mb-3 border-b border-border/50">
+                          <div className="flex items-center gap-2">
+                            <div className="h-8 w-8 rounded-lg bg-brand-100 dark:bg-brand-900/30 flex items-center justify-center">
+                              <item.icon className="h-4 w-4 text-brand-600 dark:text-brand-400" />
+                            </div>
+                            <div>
+                              <h4 className="font-semibold text-sm">{item.label}</h4>
+                              {item.description && (
+                                <p className="text-xs text-muted-foreground">{item.description}</p>
+                              )}
+                            </div>
+                          </div>
+                        </div>
+                        
+                        {/* Menu Items */}
+                        <div className="grid grid-cols-2 gap-2">
+                          {item.submenu.map((sub) => (
+                            <Link
+                              key={sub.href}
+                              href={sub.href}
+                              className="group/item flex items-start gap-3 p-3 rounded-xl hover:bg-brand-50 dark:hover:bg-brand-900/20 transition-all duration-200"
+                            >
+                              <div className="h-9 w-9 rounded-lg bg-secondary group-hover/item:bg-brand-100 dark:group-hover/item:bg-brand-900/30 flex items-center justify-center shrink-0 transition-colors">
+                                <sub.icon className="h-4 w-4 text-muted-foreground group-hover/item:text-brand-600 dark:group-hover/item:text-brand-400 transition-colors" />
+                              </div>
+                              <div>
+                                <p className="text-sm font-medium text-foreground group-hover/item:text-brand-600 dark:group-hover/item:text-brand-400 transition-colors">
+                                  {sub.label}
+                                </p>
+                                {sub.description && (
+                                  <p className="text-xs text-muted-foreground mt-0.5">{sub.description}</p>
+                                )}
+                              </div>
+                            </Link>
+                          ))}
+                        </div>
                       </div>
                     </motion.div>
                   )}
@@ -221,15 +311,17 @@ export function Header() {
 // Mobile Nav Item Component
 function MobileNavItem({ item, onClose }: { item: typeof navItems[0]; onClose: () => void }) {
   const [expanded, setExpanded] = useState(false);
+  const Icon = item.icon;
 
   return (
     <div>
       <div className="flex items-center">
         <Link
           href={item.href}
-          className="flex-1 block px-3 py-3 text-base font-medium text-foreground/80 hover:text-foreground hover:bg-accent/50 rounded-md transition-colors"
+          className="flex-1 flex items-center gap-3 px-3 py-3 text-base font-medium text-foreground/80 hover:text-foreground hover:bg-accent/50 rounded-md transition-colors"
           onClick={onClose}
         >
+          <Icon className="h-5 w-5" />
           {item.label}
         </Link>
         {item.submenu && (
@@ -253,16 +345,20 @@ function MobileNavItem({ item, onClose }: { item: typeof navItems[0]; onClose: (
             className="overflow-hidden"
           >
             <div className="pl-6 space-y-1 pb-2">
-              {item.submenu.map((sub) => (
-                <Link
-                  key={sub.href}
-                  href={sub.href}
-                  className="block px-3 py-2 text-sm text-foreground/70 hover:text-foreground hover:bg-accent/50 rounded-md transition-colors"
-                  onClick={onClose}
-                >
-                  {sub.label}
-                </Link>
-              ))}
+              {item.submenu.map((sub) => {
+                const SubIcon = sub.icon;
+                return (
+                  <Link
+                    key={sub.href}
+                    href={sub.href}
+                    className="flex items-center gap-3 px-3 py-2.5 text-sm text-foreground/70 hover:text-foreground hover:bg-accent/50 rounded-md transition-colors"
+                    onClick={onClose}
+                  >
+                    <SubIcon className="h-4 w-4" />
+                    {sub.label}
+                  </Link>
+                );
+              })}
             </div>
           </motion.div>
         )}
