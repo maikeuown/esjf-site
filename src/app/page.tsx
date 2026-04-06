@@ -7,6 +7,7 @@ import Image from 'next/image';
 import { BentoGrid, BentoGridItem } from '@/components/ui/bento-grid';
 import { WeekCalendar } from '@/components/home/week-calendar';
 import { AnimatedSection } from '@/components/ui/animated-section';
+import { HeroCarousel } from '@/components/home/hero-carousel';
 
 const priorityConfig = {
   urgent: { label: 'Urgente', className: 'bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200' },
@@ -74,84 +75,8 @@ export default async function Home() {
 
   return (
     <div>
-      {/* Hero Section - Modern 3-Section Layout */}
-      <section className="relative min-h-[85vh] flex items-center overflow-hidden bg-gradient-to-br from-brand-900 via-brand-800 to-brand-700">
-        {/* Animated Background Pattern */}
-        <div className="absolute inset-0">
-          <div className="absolute inset-0 opacity-20">
-            <div className="absolute top-20 left-10 w-72 h-72 bg-brand-400 rounded-full mix-blend-multiply filter blur-xl animate-pulse"></div>
-            <div className="absolute top-40 right-20 w-96 h-96 bg-purple-400 rounded-full mix-blend-multiply filter blur-xl animate-pulse" style={{ animationDelay: '2s' }}></div>
-            <div className="absolute bottom-20 left-1/3 w-80 h-80 bg-blue-300 rounded-full mix-blend-multiply filter blur-xl animate-pulse" style={{ animationDelay: '4s' }}></div>
-          </div>
-          {/* Grid Pattern Overlay */}
-          <div className="absolute inset-0 opacity-10" style={{
-            backgroundImage: 'linear-gradient(rgba(255,255,255,.1) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,.1) 1px, transparent 1px)',
-            backgroundSize: '60px 60px'
-          }}></div>
-        </div>
-
-        {/* Content */}
-        <div className="container mx-auto px-4 relative z-10">
-          <div className="max-w-4xl">
-            {/* Badge */}
-            <div className="inline-flex items-center gap-2 bg-white/10 backdrop-blur-sm border border-white/20 rounded-full px-4 py-2 mb-8">
-              <MapPin className="h-4 w-4 text-brand-200" />
-              <span className="text-sm text-white/90 font-medium">Coimbra · Monumento de Interesse Público</span>
-            </div>
-
-            <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold mb-6 text-white leading-tight">
-              Escola Secundária
-              <span className="block text-brand-200">José Falcão</span>
-            </h1>
-
-            <p className="text-lg sm:text-xl md:text-2xl mb-4 text-white/90 font-light">
-              Um dos primeiros Liceus de Portugal. Fundada em 1936.
-            </p>
-            <p className="text-base sm:text-lg mb-8 text-white/70 max-w-2xl">
-              Educação para a cidadania, para os valores e para a paz.
-              Atualmente em reabilitação profunda com investimento de 23,8 milhões de euros.
-            </p>
-
-            <div className="flex flex-wrap gap-4">
-              <Link href="/a-escola">
-                <Button size="lg" className="bg-white text-brand-800 hover:bg-white/90 shadow-lg hover:shadow-xl transition-all">
-                  Conhecer a Escola
-                  <ArrowRight className="ml-2 h-4 w-4" />
-                </Button>
-              </Link>
-              <Link href="/contactos">
-                <Button size="lg" variant="outline" className="border-2 border-white/30 text-white hover:bg-white/10 backdrop-blur-sm">
-                  <Phone className="mr-2 h-4 w-4" />
-                  Contactar
-                </Button>
-              </Link>
-            </div>
-
-            {/* Stats */}
-            <div className="grid grid-cols-3 gap-6 mt-12 pt-8 border-t border-white/10">
-              <div>
-                <div className="text-3xl sm:text-4xl font-bold text-white">1936</div>
-                <div className="text-sm text-white/60 mt-1">Ano de Fundação</div>
-              </div>
-              <div>
-                <div className="text-3xl sm:text-4xl font-bold text-white">88+</div>
-                <div className="text-sm text-white/60 mt-1">Anos de História</div>
-              </div>
-              <div>
-                <div className="text-3xl sm:text-4xl font-bold text-white">23.8M€</div>
-                <div className="text-sm text-white/60 mt-1">Investimento</div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        {/* Scroll Indicator */}
-        <div className="absolute bottom-8 left-1/2 -translate-x-1/2 animate-bounce">
-          <div className="w-6 h-10 border-2 border-white/30 rounded-full flex items-start justify-center p-2">
-            <div className="w-1 h-2 bg-white/60 rounded-full"></div>
-          </div>
-        </div>
-      </section>
+      {/* Hero Carousel */}
+      <HeroCarousel />
 
       {/* Quick Links - With Glow Lift Pulse Effect */}
       <section className="py-12 bg-secondary">
