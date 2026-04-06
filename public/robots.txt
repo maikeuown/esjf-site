@@ -1,0 +1,11 @@
+# ESJF Website
+User-agent: *
+Allow: /
+
+# Admin areas - block crawlers
+Disallow: /admin/
+Disallow: /login
+Disallow: /auth/
+
+# Sitemap
+Sitemap: https://esjf.pt/sitemap.xml
