@@ -32,9 +32,8 @@ export async function generateMetadata({ params }: AvisoPageProps): Promise<Meta
   };
 }
 
-export async function generateStaticParams() {
-  return [];
-}
+// Dynamic rendering - data comes from Supabase
+export const dynamic = 'force-dynamic';
 
 function getPriorityBadge(priority: string) {
   const config: Record<string, { label: string; variant: 'destructive' | 'default' | 'secondary' }> = {

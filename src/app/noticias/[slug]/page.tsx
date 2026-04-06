@@ -16,7 +16,7 @@ interface NewsPageProps {
 export async function generateMetadata({ params }: NewsPageProps): Promise<Metadata> {
   const supabase = await createServerClient();
   const { slug } = await params;
-  
+
   const { data: news } = await supabase
     .from('news')
     .select('title, excerpt, featured_image_url')
@@ -39,11 +39,8 @@ export async function generateMetadata({ params }: NewsPageProps): Promise<Metad
   };
 }
 
-export async function generateStaticParams() {
-  // Return empty array for static generation
-  // Pages will be generated on-demand with ISR
-  return [];
-}
+// Dynamic rendering - data comes from Supabase
+export const dynamic = 'force-dynamic';
 
 export default async function NewsDetailPage({ params }: NewsPageProps) {
   const supabase = await createServerClient();
