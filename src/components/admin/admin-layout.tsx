@@ -1,7 +1,7 @@
 'use client';
 
 import Link from 'next/link';
-import { usePathname } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 import { useAuth } from '@/hooks/use-auth';
 import {
   LayoutDashboard,
@@ -40,8 +40,14 @@ const adminNav = [
 
 export function AdminLayout({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
+  const router = useRouter();
   const { profile, signOut } = useAuth();
   const [sidebarOpen, setSidebarOpen] = useState(true);
+
+  const handleSignOut = async () => {
+    await signOut();
+    router.push('/login');
+  };
 
   return (
     <div className="flex h-screen">
@@ -97,7 +103,7 @@ export function AdminLayout({ children }: { children: React.ReactNode }) {
               {sidebarOpen && 'Ver Site'}
             </Button>
           </Link>
-          <Button variant="outline" size="sm" className="w-full" onClick={() => signOut()}>
+          <Button variant="outline" size="sm" className="w-full" onClick={handleSignOut}>
             <LogOut className="h-4 w-4 mr-2" />
             {sidebarOpen && 'Terminar Sessão'}
           </Button>

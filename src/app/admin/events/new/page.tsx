@@ -59,7 +59,7 @@ export default function NewEventPage() {
           </div>
           <h1 className="text-3xl font-bold">Criar Evento</h1>
         </div>
-        <Button onClick={handleSave} disabled={loading} className="bg-brand-600 hover:bg-brand-700 gap-2">
+        <Button type="button" onClick={handleSave} disabled={loading} className="bg-brand-600 hover:bg-brand-700 gap-2 text-white">
           <Save className="h-4 w-4" />
           {loading ? 'A guardar...' : 'Guardar'}
         </Button>

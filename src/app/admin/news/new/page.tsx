@@ -13,14 +13,22 @@ import { createBrowserClient } from '@/lib/supabase/client';
 import { slugify } from '@/lib/utils';
 import { Save, Eye, Pencil, Sparkles } from 'lucide-react';
 
+const categories = [
+  { value: 'geral', label: 'Geral' },
+  { value: 'academico', label: 'Académico' },
+  { value: 'eventos', label: 'Eventos' },
+  { value: 'desporto', label: 'Desporto' },
+  { value: 'cultura', label: 'Cultura' },
+];
+
 export default function NewsEditorPage() {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
   const [title, setTitle] = useState('');
   const [excerpt, setExcerpt] = useState('');
   const [featuredImageUrl, setFeaturedImageUrl] = useState('');
-  const [categoryId, setCategoryId] = useState('');
-  const [status, setStatus] = useState<'draft' | 'published' | 'scheduled'>('draft');
+  const [categoryId, setCategoryId] = useState<string | undefined>(undefined);
+  const [status, setStatus] = useState('draft');
   const [content, setContent] = useState('');
   const [editorTab, setEditorTab] = useState<'edit' | 'preview'>('edit');
   const supabase = createBrowserClient();
@@ -60,14 +68,13 @@ export default function NewsEditorPage() {
           </div>
           <h1 className="text-3xl font-bold">Criar Notícia</h1>
         </div>
-        <Button onClick={handleSave} disabled={loading} className="bg-brand-600 hover:bg-brand-700 gap-2">
+        <Button type="button" onClick={handleSave} disabled={loading} className="bg-brand-600 hover:bg-brand-700 gap-2 text-white">
           <Save className="h-4 w-4" />
           {loading ? 'A guardar...' : 'Guardar'}
         </Button>
       </div>
 
       <form onSubmit={handleSave} className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        {/* Main Content */}
         <div className="lg:col-span-2">
           <Card>
             <CardHeader className="pb-3">
@@ -89,7 +96,6 @@ export default function NewsEditorPage() {
           </Card>
         </div>
 
-        {/* Sidebar */}
         <div className="space-y-6">
           <Card>
             <CardHeader><CardTitle>Definições</CardTitle></CardHeader>
@@ -98,10 +104,9 @@ export default function NewsEditorPage() {
                 <Label htmlFor="title">Título *</Label>
                 <Input id="title" value={title} onChange={(e) => setTitle(e.target.value)} placeholder="Título da notícia" required />
               </div>
-
               <div>
                 <Label htmlFor="status">Estado</Label>
-                <Select value={status} onValueChange={(v: any) => setStatus(v)}>
+                <Select value={status} onValueChange={setStatus}>
                   <SelectTrigger><SelectValue /></SelectTrigger>
                   <SelectContent>
                     <SelectItem value="draft">Rascunho</SelectItem>
@@ -110,27 +115,22 @@ export default function NewsEditorPage() {
                   </SelectContent>
                 </Select>
               </div>
-
               <div>
                 <Label htmlFor="category">Categoria</Label>
-                <Select value={categoryId} onValueChange={setCategoryId}>
+                <Select value={categoryId || 'none'} onValueChange={(v) => setCategoryId(v === 'none' ? undefined : v)}>
                   <SelectTrigger><SelectValue placeholder="Selecione" /></SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="">Sem categoria</SelectItem>
-                    <SelectItem value="1">Geral</SelectItem>
-                    <SelectItem value="2">Académico</SelectItem>
-                    <SelectItem value="3">Eventos</SelectItem>
-                    <SelectItem value="4">Desporto</SelectItem>
-                    <SelectItem value="5">Cultura</SelectItem>
+                    <SelectItem value="none">Sem categoria</SelectItem>
+                    {categories.map(cat => (
+                      <SelectItem key={cat.value} value={cat.value}>{cat.label}</SelectItem>
+                    ))}
                   </SelectContent>
                 </Select>
               </div>
-
               <div>
                 <Label htmlFor="excerpt">Resumo</Label>
                 <Textarea id="excerpt" value={excerpt} onChange={(e) => setExcerpt(e.target.value)} placeholder="Breve resumo" rows={3} />
               </div>
-
               <div>
                 <Label htmlFor="featuredImageUrl">Imagem de Destaque (URL)</Label>
                 <Input id="featuredImageUrl" value={featuredImageUrl} onChange={(e) => setFeaturedImageUrl(e.target.value)} placeholder="https://..." />

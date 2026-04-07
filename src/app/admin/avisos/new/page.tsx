@@ -18,9 +18,9 @@ export default function NewAvisoPage() {
   const [loading, setLoading] = useState(false);
   const [title, setTitle] = useState('');
   const [excerpt, setExcerpt] = useState('');
-  const [priority, setPriority] = useState<'urgent' | 'normal' | 'low'>('normal');
+  const [priority, setPriority] = useState('normal');
   const [isPinned, setIsPinned] = useState(false);
-  const [status, setStatus] = useState<'draft' | 'published'>('draft');
+  const [status, setStatus] = useState('draft');
   const [content, setContent] = useState('');
   const [editorTab, setEditorTab] = useState<'edit' | 'preview'>('edit');
   const supabase = createBrowserClient();
@@ -48,8 +48,6 @@ export default function NewAvisoPage() {
     setLoading(false);
   };
 
-  const priorityColors: Record<string, string> = { urgent: 'text-red-600', normal: 'text-blue-600', low: 'text-gray-600' };
-
   return (
     <div>
       <div className="flex items-center justify-between mb-8">
@@ -60,7 +58,7 @@ export default function NewAvisoPage() {
           </div>
           <h1 className="text-3xl font-bold">Criar Aviso</h1>
         </div>
-        <Button onClick={handleSave} disabled={loading} className="bg-brand-600 hover:bg-brand-700 gap-2">
+        <Button type="button" onClick={handleSave} disabled={loading} className="bg-brand-600 hover:bg-brand-700 gap-2 text-white">
           <Save className="h-4 w-4" />
           {loading ? 'A guardar...' : 'Guardar'}
         </Button>
@@ -97,8 +95,18 @@ export default function NewAvisoPage() {
                 <Input id="title" value={title} onChange={(e) => setTitle(e.target.value)} placeholder="Título do aviso" required />
               </div>
               <div>
+                <Label htmlFor="status">Estado</Label>
+                <Select value={status} onValueChange={setStatus}>
+                  <SelectTrigger><SelectValue /></SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="draft">Rascunho</SelectItem>
+                    <SelectItem value="published">Publicado</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+              <div>
                 <Label htmlFor="priority">Prioridade</Label>
-                <Select value={priority} onValueChange={(v: any) => setPriority(v)}>
+                <Select value={priority} onValueChange={setPriority}>
                   <SelectTrigger><SelectValue /></SelectTrigger>
                   <SelectContent>
                     <SelectItem value="low">Baixa</SelectItem>
@@ -109,19 +117,9 @@ export default function NewAvisoPage() {
               </div>
               <div className="flex items-center gap-2 p-3 rounded-lg bg-secondary/50">
                 <input type="checkbox" id="isPinned" checked={isPinned} onChange={(e) => setIsPinned(e.target.checked)} className="h-4 w-4 rounded" />
-                <Label htmlFor="isPinned" className={`flex items-center gap-1 cursor-pointer ${priorityColors[priority]}`}>
+                <Label htmlFor="isPinned" className="flex items-center gap-1 cursor-pointer">
                   <Pin className={`h-4 w-4 ${isPinned ? 'fill-current' : ''}`} /> Fixado no topo
                 </Label>
-              </div>
-              <div>
-                <Label htmlFor="status">Estado</Label>
-                <Select value={status} onValueChange={(v: any) => setStatus(v)}>
-                  <SelectTrigger><SelectValue /></SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="draft">Rascunho</SelectItem>
-                    <SelectItem value="published">Publicado</SelectItem>
-                  </SelectContent>
-                </Select>
               </div>
               <div>
                 <Label htmlFor="excerpt">Resumo</Label>

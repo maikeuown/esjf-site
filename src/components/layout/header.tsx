@@ -245,7 +245,7 @@ export function Header() {
             </motion.button>
             {profile ? (
               <Link href="/admin">
-                <Button size="sm" className="hidden md:flex bg-brand-600 hover:bg-brand-700">
+                <Button size="sm" className="hidden md:flex bg-brand-600 hover:bg-brand-700 text-white">
                   Painel Admin
                 </Button>
               </Link>
