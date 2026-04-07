@@ -28,8 +28,7 @@ export default async function NewsPage({ searchParams }: { searchParams: Promise
     .from('news')
     .select(`
       *,
-      category:news_categories(name, slug, color),
-      author:profiles(full_name)
+      category:news_categories(name, slug, color)
     `, { count: 'exact' })
     .eq('status', 'published')
     .order('published_at', { ascending: false });
@@ -122,9 +121,6 @@ export default async function NewsPage({ searchParams }: { searchParams: Promise
                       <Calendar className="h-4 w-4" />
                       {item.published_at ? formatDate(new Date(item.published_at)) : 'Recente'}
                     </span>
-                    {item.author && (
-                      <span>{item.author.full_name}</span>
-                    )}
                   </div>
                 </CardContent>
               </Card>

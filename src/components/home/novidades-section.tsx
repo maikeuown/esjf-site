@@ -33,36 +33,17 @@ const priorityConfig: Record<string, { label: string; className: string }> = {
 
 function ColumnHeader({ title, icon: Icon, href }: { title: string; icon: React.ElementType; href: string }) {
   const [isHovered, setIsHovered] = useState(false);
-
   return (
-    <div
-      className="relative mb-6 overflow-visible"
-      onMouseEnter={() => setIsHovered(true)}
-      onMouseLeave={() => setIsHovered(false)}
-    >
+    <div className="mb-6 relative" onMouseEnter={() => setIsHovered(true)} onMouseLeave={() => setIsHovered(false)}>
       <div className="flex items-center justify-center">
-        <motion.div
-          className="flex items-center gap-2"
-          animate={isHovered ? { x: -50 } : { x: 0 }}
-          transition={{ type: 'spring', stiffness: 300, damping: 25 }}
-        >
-          <Icon className="h-6 w-6 text-brand-600 dark:text-brand-400 shrink-0" />
-          <h2 className="text-2xl font-bold whitespace-nowrap">{title}</h2>
+        <motion.div className="flex items-center gap-2" animate={isHovered ? { x: -55 } : { x: 0 }} transition={{ type: 'spring', stiffness: 300, damping: 25 }}>
+          <Icon className="h-6 w-6 text-brand-600 dark:text-brand-400" />
+          <h2 className="text-2xl font-bold">{title}</h2>
         </motion.div>
         <AnimatePresence>
           {isHovered && (
-            <motion.div
-              initial={{ opacity: 0, x: 10 }}
-              animate={{ opacity: 1, x: 0 }}
-              exit={{ opacity: 0, x: 10 }}
-              transition={{ duration: 0.15 }}
-              className="absolute right-0"
-            >
-              <Link href={href}>
-                <span className="inline-flex items-center gap-1 text-sm font-medium text-brand-600 dark:text-brand-400 hover:underline whitespace-nowrap">
-                  Ver todos <ArrowRight className="h-3 w-3" />
-                </span>
-              </Link>
+            <motion.div initial={{ opacity: 0, x: 10 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: 10 }} transition={{ duration: 0.15 }} className="absolute right-0">
+              <Link href={href}><span className="inline-flex items-center gap-1 text-sm font-medium text-brand-600 dark:text-brand-400 hover:underline">Ver todos <ArrowRight className="h-3 w-3" /></span></Link>
             </motion.div>
           )}
         </AnimatePresence>
@@ -71,19 +52,23 @@ function ColumnHeader({ title, icon: Icon, href }: { title: string; icon: React.
   );
 }
 
+function ColumnCard({ children }: { children: React.ReactNode }) {
+  return <div className="mb-5">{children}</div>;
+}
+
 export function NovidadesSection() {
   return (
     <section className="py-16 bg-gradient-to-b from-secondary/30 to-background">
       <div className="container mx-auto px-4">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <div className="flex flex-col lg:flex-row gap-8">
           {/* Avisos Column */}
-          <div>
+          <div className="flex-1">
             <ColumnHeader title="Avisos" icon={Megaphone} href="/avisos" />
-            <div className="space-y-5">
-              {avisosData.map((aviso) => {
-                const priority = priorityConfig[aviso.priority] || priorityConfig.normal;
-                return (
-                  <Link key={aviso.id} href={`/avisos/${aviso.slug}`}>
+            {avisosData.map((aviso) => {
+              const priority = priorityConfig[aviso.priority] || priorityConfig.normal;
+              return (
+                <ColumnCard key={aviso.id}>
+                  <Link href={`/avisos/${aviso.slug}`}>
                     <Card className="card-glow-lift-pulse border-border/50 cursor-pointer overflow-hidden">
                       <CardContent className="p-5">
                         <Badge className={`${priority.className} mb-3`}>{priority.label}</Badge>
@@ -93,17 +78,17 @@ export function NovidadesSection() {
                       </CardContent>
                     </Card>
                   </Link>
-                );
-              })}
-            </div>
+                </ColumnCard>
+              );
+            })}
           </div>
 
           {/* Notícias Column */}
-          <div>
+          <div className="flex-1">
             <ColumnHeader title="Notícias" icon={Newspaper} href="/noticias" />
-            <div className="space-y-5">
-              {newsData.map((item) => (
-                <Link key={item.id} href={`/noticias/${item.slug}`}>
+            {newsData.map((item) => (
+              <ColumnCard key={item.id}>
+                <Link href={`/noticias/${item.slug}`}>
                   <Card className="card-glow-lift-pulse border-border/50 cursor-pointer overflow-hidden">
                     <CardContent className="p-5">
                       <Badge className="mb-3 text-white" style={{ backgroundColor: item.color }}>{item.category}</Badge>
@@ -113,16 +98,16 @@ export function NovidadesSection() {
                     </CardContent>
                   </Card>
                 </Link>
-              ))}
-            </div>
+              </ColumnCard>
+            ))}
           </div>
 
           {/* Eventos Column */}
-          <div>
+          <div className="flex-1">
             <ColumnHeader title="Eventos" icon={Calendar} href="/eventos" />
-            <div className="space-y-5">
-              {eventsData.map((event) => (
-                <Link key={event.id} href={`/eventos/${event.slug}`}>
+            {eventsData.map((event) => (
+              <ColumnCard key={event.id}>
+                <Link href={`/eventos/${event.slug}`}>
                   <Card className="card-glow-lift-pulse border-border/50 cursor-pointer overflow-hidden">
                     <CardContent className="p-5">
                       <div className="flex items-start gap-3">
@@ -138,8 +123,8 @@ export function NovidadesSection() {
                     </CardContent>
                   </Card>
                 </Link>
-              ))}
-            </div>
+              </ColumnCard>
+            ))}
           </div>
         </div>
       </div>
